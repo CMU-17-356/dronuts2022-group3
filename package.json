@@ -4,7 +4,8 @@
   "description": "Dronuts Project 2022",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "lint": "esw -w test"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "eslint": "^8.8.0",
     "eslint-plugin-react": "^7.28.0",
+    "eslint-watch": "^8.0.0",
     "jest": "^27.4.7"
   }
 }
