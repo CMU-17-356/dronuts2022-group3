@@ -1,0 +1,30 @@
+{
+  "name": "dronuts2022-group3",
+  "version": "1.0.0",
+  "description": "Dronuts Project 2022",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "esw -w test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CMU-17-356/dronuts2022-group3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CMU-17-356/dronuts2022-group3/issues"
+  },
+  "homepage": "https://github.com/CMU-17-356/dronuts2022-group3#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "npm-check": "^4.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.8.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-watch": "^8.0.0",
+    "jest": "^27.4.7"
+  }
+}
