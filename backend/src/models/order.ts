@@ -1,9 +1,9 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-import { CustomerInterface, CustomerModel } from './customer';
-import { DonutInterface, DonutModel } from './donut';
-import { DroneInterface, DroneModel } from './drone';
-import { LocationInterface, LocationModel } from './location';
-import { StoreInterface, StoreModel } from './store';
+import { CustomerInterface, CustomerSchema } from './customer';
+import { DonutInterface, DonutSchema } from './donut';
+import { DroneInterface, DroneSchema } from './drone';
+import { LocationInterface, LocationSchema } from './location';
+import { StoreInterface, StoreSchema } from './store';
 
 export interface OrderInterface extends Document {
     customer: CustomerInterface,
@@ -15,11 +15,11 @@ export interface OrderInterface extends Document {
 }
 
 export const OrderSchema = new Schema({
-    customer: {type: CustomerModel, required: true},
-    drone: {type: DroneModel, required: true},
-    location: {type: LocationModel, required: true},
-    store: {type: StoreModel, required: true},
-    order_items: {type: [DonutModel], required: true},
+    customer: {type: CustomerSchema, required: true},
+    drone: {type: DroneSchema, required: true},
+    location: {type: LocationSchema, required: true},
+    store: {type: StoreSchema, required: true},
+    order_items: {type: [DonutSchema], required: true},
     order_price: {type: Number, required: true}
 });
 
