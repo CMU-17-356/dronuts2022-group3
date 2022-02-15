@@ -3,9 +3,10 @@ import logo from './logo.svg';
 import './App.css';
 
 import Dashboard from './components/Dashboard/Dashboard'
+import CustomerMenu from './components/CustomerMenu/CustomerMenu';
 
 function App() {
-  return Dashboard();
+  return CustomerMenu();
 }
 
 export default App;
