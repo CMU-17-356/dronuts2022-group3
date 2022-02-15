@@ -9,13 +9,15 @@ export interface CustomerInterface extends Document {
   password: string
 }
 
-const customerSchema = new Schema({
+const LocationSchema = new Schema({}); // TODO (ananya) : create the actual model and remove this
+
+const CustomerSchema = new Schema({
   first_name: {type: String, required: true},
-  last_name: String,
-  email: String,
-  phone_number: String,
-  password: String
-//   addresses: []
+  last_name: {type: String, required: true},
+  email: {type: String, required: true},
+  phone_number: {type: String, required: true},
+  password: {type: String, required: true},
+  addresses: [LocationSchema]
 });
 
-export const CustomerModel: Model<CustomerInterface> = mongoose.model('Customer', customerSchema);
+export const CustomerModel: Model<CustomerInterface> = mongoose.model('Customer', CustomerSchema);
