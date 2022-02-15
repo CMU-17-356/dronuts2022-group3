@@ -11,7 +11,11 @@ export const DonutSchema = new Schema({
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const DonutModel: Model<DonutInterface> = mongoose.model('Donut', DonutSchema);
+=======
+export const DonutModel: Model<DonutInterface> = mongoose.model('Donut', DonutSchema);
+>>>>>>> master
 =======
 export const DonutModel: Model<DonutInterface> = mongoose.model('Donut', DonutSchema);
 >>>>>>> master
