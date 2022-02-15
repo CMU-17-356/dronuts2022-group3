@@ -1,8 +1,7 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
-import Card from '@mui/material/Card';
+import RestaurantMenuTwoToneIcon from '@mui/icons-material/RestaurantMenuTwoTone';import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -21,7 +20,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Dronuts Group 3
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -39,22 +38,13 @@ export default function CustomerMenu() {
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <CameraIcon sx={{ mr: 2 }} />
+          <RestaurantMenuTwoToneIcon sx={{ mr: 2 }} />
           <Typography variant="h6" color="inherit" noWrap>
-            Customer Menu layout
+            Dronuts Menu 
           </Typography>
         </Toolbar>
       </AppBar>
       <main>
-        {/* Hero unit */}
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            pt: 8,
-            pb: 6,
-          }}
-        >
-        </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
@@ -65,25 +55,19 @@ export default function CustomerMenu() {
                 >
                   <CardMedia
                     component="img"
-                    sx={{
-                      // 16:9
-                      pt: '56.25%',
-                    }}
-                    image="https://source.unsplash.com/random"
-                    alt="random"
+                    image="https://www.krispykreme.com/App_Themes/krispykremenew/Content/images/loyalty/reward-doughnut.png"
+                    alt="donut"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      Donut Name
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the
-                      content.
+                      This is a donut card. The donut's description will go here.
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
+                    <Button size="small">Add to Cart</Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -102,7 +86,7 @@ export default function CustomerMenu() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+          Dronuts Group 3 2022
         </Typography>
         <Copyright />
       </Box>
