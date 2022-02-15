@@ -11,3 +11,4 @@ export const DonutSchema = new Schema({
 });
 
 export const DonutModel: Model<DonutInterface> = mongoose.model('Donut', DonutSchema);
+
