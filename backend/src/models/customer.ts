@@ -1,15 +1,15 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-// const { Schema } = mongoose;
+
+import { LocationInterface, LocationSchema } from './location';
 
 export interface CustomerInterface extends Document {
   first_name: string,
   last_name: string,
   email: string,
   phone_number: string,
-  password: string
+  password: string,
+  addresses: [LocationInterface]
 }
-
-const LocationSchema = new Schema({}); // TODO (ananya) : create the actual model and remove this
 
 const CustomerSchema = new Schema({
   first_name: {type: String, required: true},
