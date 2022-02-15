@@ -1,7 +1,7 @@
 import { CustomerModel, CustomerInterface} from '../../src/models/customer';
 
+jest.useFakeTimers()
 describe('customer test', function() {
-
     it('should take on assigned values', () => {
         const c = new CustomerModel();
         c.first_name = 'Riccardo';

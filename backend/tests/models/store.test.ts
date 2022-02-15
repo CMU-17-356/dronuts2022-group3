@@ -1,5 +1,6 @@
 import { StoreModel, StoreInterface} from '../../src/models/store';
 
+jest.useFakeTimers()
 describe('store test', function() {
 
     it('should take on assigned values', () => {
