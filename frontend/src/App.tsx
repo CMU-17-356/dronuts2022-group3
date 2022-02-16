@@ -1,13 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-import Dashboard from './components/Dashboard/Dashboard'
-import CustomerMenu from './components/Customer/CustomerMenu';
-import TrackOrder from './components/Customer/TrackOrder';
+import Home from './components/Home/Home';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from "./components/Theme/Theme";
+
 
 function App() {
-  return TrackOrder();
+  return (<ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Home />
+  </ThemeProvider>);
 }
 
 export default App;
