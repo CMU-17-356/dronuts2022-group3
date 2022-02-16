@@ -6,52 +6,47 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
+import { Card, CardContent, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import { DonutSmall } from '@mui/icons-material';
+
 
 // Generate Order Data
 function createData(
   id: number,
-  date: string,
-  name: string,
-  shipTo: string,
-  paymentMethod: string,
-  amount: number,
+  first_name: string,
+  last_name: string,
+  items: string[]
+  // shipTo: string,
+  // paymentMethod: string,
+  // amount: number,
 ) {
-  return { id, date, name, shipTo, paymentMethod, amount };
+  return { id, first_name,last_name, items };
 }
 
 const rows = [
   createData(
     0,
-    '16 Mar, 2019',
-    'Elvis Presley',
-    'Tupelo, MS',
-    'VISA ⠀•••• 3719',
-    312.44,
+    'John',
+    "Smith",
+    ['glazed donut', 'crueller','cronut']
   ),
   createData(
     1,
-    '16 Mar, 2019',
-    'Paul McCartney',
-    'London, UK',
-    'VISA ⠀•••• 2574',
-    866.99,
+    'Eleanor',
+    'McCartney',
+    ['glazed donut', 'crueller','cronut']
   ),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
+  createData(
+    2,
+    'Jane',
+    'Harrison',
+    ['glazed donut', 'crueller','cronut']
+  ),
   createData(
     3,
-    '16 Mar, 2019',
-    'Michael Jackson',
-    'Gary, IN',
-    'AMEX ⠀•••• 2000',
-    654.39,
-  ),
-  createData(
-    4,
-    '15 Mar, 2019',
-    'Bruce Springsteen',
-    'Long Branch, NJ',
-    'VISA ⠀•••• 5919',
-    212.79,
+    'Paul',
+    'Garrett',
+    ['glazed donut', 'crueller','cronut']
   ),
 ];
 
@@ -63,7 +58,21 @@ export default function Orders() {
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
-      <Table size="small">
+      {rows.map((row) =>(
+        <Card>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div"> Order for Customer {row.first_name} {row.last_name} </Typography>
+            <FormControl>
+              <RadioGroup aria-labelledby='radio-buttons-group-label' name='radio-buttons-group'>
+                {row.items.map((donut)=>(
+                  <FormControlLabel value={donut} control={<Radio />} label={donut} labelPlacement="start"/>
+                ))}
+              </RadioGroup>
+            </FormControl>
+          </CardContent>
+        </Card>
+      ))}
+      {/* <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
@@ -87,7 +96,17 @@ export default function Orders() {
       </Table>
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
         See more orders
-      </Link>
+      </Link> */}
     </React.Fragment>
   );
 }
+
+
+function donut(id: (id: any, donut: any) => void, donut: any) {
+  throw new Error('Function not implemented.');
+}
+
+function donut_id(donut_id: any, donut: (id: (id: any, donut: any) => void, donut: any) => void) {
+  throw new Error('Function not implemented.');
+}
+
