@@ -1,11 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-import Dashboard from './components/Dashboard/Dashboard'
+import Home from './components/Home/Home';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from "./components/Theme/Theme";
+
 
 function App() {
-  return Dashboard();
+  return (<ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Home />
+  </ThemeProvider>);
 }
 
 export default App;

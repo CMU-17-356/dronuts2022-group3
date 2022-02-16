@@ -18,4 +18,3 @@ export const DroneSchema = new Schema({
 
 export const DroneModel: Model<DroneInterface> = mongoose.model('Drone', DroneSchema);
 
-

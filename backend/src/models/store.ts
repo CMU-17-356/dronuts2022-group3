@@ -9,7 +9,7 @@ export interface StoreInterface extends Document {
   address: LocationInterface
 }
 
-const StoreSchema = new Schema({
+export const StoreSchema = new Schema({
   name: {type: String, required: true},
   email: {type: String, required: true},
   phone_number: {type: String, required: true},
