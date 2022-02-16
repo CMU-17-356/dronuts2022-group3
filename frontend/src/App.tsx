@@ -9,7 +9,6 @@ import Dashboard from './components/Dashboard/Dashboard';
 
 import ResponsiveAppBar from './components/Home/ResponsiveAppBar';
 import TrackOrder from './components/Customer/TrackOrder';
-import Dashboard from './components/Dashboard/Dashboard';
 
 import {
     BrowserRouter as Router,

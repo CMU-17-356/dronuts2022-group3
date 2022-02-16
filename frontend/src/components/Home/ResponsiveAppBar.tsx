@@ -43,7 +43,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
-  //const classes = useStyles();
+  const classes = useStyles();
 
 
   return (
