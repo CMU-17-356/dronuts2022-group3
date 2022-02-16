@@ -8,21 +8,21 @@ import { OrderInterface, OrderSchema } from './order';
 
 export interface PaymentInterface extends Document {
     payment_id: number,
-    order_total: float,
-    tax: float,
-    service_fee: float,
-    tip: float,
+    order_total: number,
+    tax: number,
+    service_fee: number,
+    tip: number,
     order: OrderInterface,
     customer: CustomerInterface,
     completion_status: boolean
 }
 
 export const PaymentSchema = new Schema({
-    payment_id: {type: number, required: true},
-    order_total: {type: float, required: true},
-    tax: {type: float, required: true},
-    service_fee: {type: float, required: true},
-    tip: {type: float, required: true},
+    payment_id: {type: Number, required: true},
+    order_total: {type: Number, required: true},
+    tax: {type: Number, required: true},
+    service_fee: {type: Number, required: true},
+    tip: {type: Number, required: true},
     order: {type: OrderSchema, required: true},
     customer: {type: CustomerSchema, required: true},
     completion_status: {type: Boolean, required: true}
