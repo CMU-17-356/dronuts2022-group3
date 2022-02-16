@@ -6,10 +6,10 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import { Button, Card, CardActions, CardContent, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, Checkbox, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { styled } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
+import { red, grey} from '@mui/material/colors';
 
 
 // Generate Order Data
@@ -24,7 +24,9 @@ function createData(
 ) {
   return { id, first_name,last_name, items };
 }
-
+function OrderScroll(props){
+  /*TODO Funmbi --> implement order scrollable functionality */
+}
 const rows = [
   createData(
     0,
@@ -52,34 +54,46 @@ const rows = [
   ),
 ];
 
-function preventDefault(event: React.MouseEvent) {
-  event.preventDefault();
-}
+
+
+const Div = styled('div')(({ theme }) => ({
+  ...theme.typography.button,
+  backgroundColor: grey[500],
+  padding: theme.spacing(1),
+}));
 const UpdatedButton = styled(Button)(({ theme }) => ({
   position: 'relative',
   left: 'calc(80% - 10px)',
-  color: theme.palette.getContrastText(red[500]),
+  backgroundColor: red[500],
 }));
 export default function Orders() {
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
+      <Table size="small">
+      <TableBody>
       {rows.map((row) =>(
+        <TableRow>
         <Card>
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div"> Order for Customer {row.first_name} {row.last_name} </Typography>
+            <Div> Order for Customer {row.first_name} {row.last_name} </Div>
             <FormControl>
-              <RadioGroup aria-labelledby='radio-buttons-group-label' name='radio-buttons-group'>
                 {row.items.map((donut)=>(
-                  <FormControlLabel value={donut} control={<Radio />} label={donut} labelPlacement="start"/>
+                  <FormControlLabel value={donut} control={<Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }}/>}
+                   label={donut} labelPlacement="start"/>
                 ))}
-              </RadioGroup>
             </FormControl>
           </CardContent>
           <CardActions>
-          <UpdatedButton variant="contained" endIcon={<SendIcon />} >Order Packed</UpdatedButton>
+          <UpdatedButton variant="contained" endIcon={<SendIcon />}>Order Packed</UpdatedButton>
           </CardActions>
         </Card>
+        </TableRow>
       ))}
       {/* <Table size="small">
         <TableHead>
@@ -106,6 +120,8 @@ export default function Orders() {
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
         See more orders
       </Link> */}
+      </TableBody>
+      </Table>
     </React.Fragment>
   );
 }
