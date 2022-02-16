@@ -6,8 +6,10 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import { Card, CardContent, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
-import { DonutSmall } from '@mui/icons-material';
+import { Button, Card, CardActions, CardContent, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import { styled } from '@mui/material/styles';
+import { red } from '@mui/material/colors';
 
 
 // Generate Order Data
@@ -53,7 +55,11 @@ const rows = [
 function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
 }
-
+const UpdatedButton = styled(Button)(({ theme }) => ({
+  position: 'relative',
+  left: 'calc(80% - 10px)',
+  color: theme.palette.getContrastText(red[500]),
+}));
 export default function Orders() {
   return (
     <React.Fragment>
@@ -70,6 +76,9 @@ export default function Orders() {
               </RadioGroup>
             </FormControl>
           </CardContent>
+          <CardActions>
+          <UpdatedButton variant="contained" endIcon={<SendIcon />} >Order Packed</UpdatedButton>
+          </CardActions>
         </Card>
       ))}
       {/* <Table size="small">
@@ -102,11 +111,4 @@ export default function Orders() {
 }
 
 
-function donut(id: (id: any, donut: any) => void, donut: any) {
-  throw new Error('Function not implemented.');
-}
-
-function donut_id(donut_id: any, donut: (id: (id: any, donut: any) => void, donut: any) => void) {
-  throw new Error('Function not implemented.');
-}
 
