@@ -11,9 +11,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { makeStyles } from '@mui/styles';
 
 const pages = ['Employee', 'Customer'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const useStyles = makeStyles({
+  logo: {
+    maxWidth: 100,
+  },
+});
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -34,18 +41,15 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
+  const classes = useStyles();
+
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-          >
-            LOGO
-          </Typography>
+          {/* TODO (rsantoni) : Fix this, why isn't the logo showing? */}
+          <img src="./DronutLogo.png" alt="logo" className={classes.logo} />
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
