@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/material/styles';
 
 const pages = ['Employee', 'Customer'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -41,7 +41,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
-  const classes = useStyles();
+  //const classes = useStyles();
 
 
   return (
@@ -49,7 +49,7 @@ const ResponsiveAppBar = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* TODO (rsantoni) : Fix this, why isn't the logo showing? */}
-          <img src="./DronutLogo.png" alt="logo" className={classes.logo} />
+           <img src="./DronutLogo.png" alt="logo" className={classes.logo} />
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
