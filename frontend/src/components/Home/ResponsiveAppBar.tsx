@@ -13,7 +13,16 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { makeStyles } from '@mui/styles';
 
-const pages = ['Employee', 'Customer'];
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useMatch,
+  useParams
+} from "react-router-dom";
+
+const pages = ['Customer', 'Employee'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const useStyles = makeStyles({
