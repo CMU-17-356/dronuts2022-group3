@@ -169,25 +169,12 @@ function OrderDetailsCard(){
     );
 }
 
-const theme = createTheme();
-
 export default function TrackOrder() {
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <AppBar position="relative">
-              <Toolbar>
-                <RestaurantMenuTwoToneIcon sx={{ mr: 2 }} />
-                <Typography variant="h6" color="inherit" noWrap>
-                Dronuts Track My Order 
-                </Typography>
-              </Toolbar>
-            </AppBar>
-            <main>
-                <DeliveryCard></DeliveryCard>
-                <OrderDetailsCard></OrderDetailsCard>
-            </main>
-        </ThemeProvider>
+      <main>
+          <DeliveryCard></DeliveryCard>
+          <OrderDetailsCard></OrderDetailsCard>
+      </main>
     );
 }
 

@@ -7,7 +7,6 @@ import { StoreInterface, StoreSchema } from './store';
 import { OrderInterface, OrderSchema } from './order';
 
 export interface PaymentInterface extends Document {
-    payment_id: number,
     order_total: number,
     tax: number,
     service_fee: number,
@@ -18,7 +17,6 @@ export interface PaymentInterface extends Document {
 }
 
 export const PaymentSchema = new Schema({
-    payment_id: {type: Number, required: true},
     order_total: {type: Number, required: true},
     tax: {type: Number, required: true},
     service_fee: {type: Number, required: true},
