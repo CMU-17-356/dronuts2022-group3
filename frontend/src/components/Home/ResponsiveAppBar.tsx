@@ -49,7 +49,9 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img src="./DronutLogo.png" alt="logo" className={classes.logo} />
+          <Box component={Link} to="/">
+             <img src="./DronutLogo.png" alt="logo" className={classes.logo} />
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
