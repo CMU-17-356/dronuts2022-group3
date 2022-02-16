@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom'
 
+
 const pages = ['customer', 'employee'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -42,7 +43,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
-  const classes = useStyles();
+  //const classes = useStyles();
 
 
   return (
