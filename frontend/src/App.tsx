@@ -3,10 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 
 import Dashboard from './components/Dashboard/Dashboard'
-import CustomerMenu from './components/CustomerMenu/CustomerMenu';
+import CustomerMenu from './components/Customer/CustomerMenu';
+import TrackOrder from './components/Customer/TrackOrder';
 
 function App() {
-  return CustomerMenu();
+  return TrackOrder();
 }
 
 export default App;
