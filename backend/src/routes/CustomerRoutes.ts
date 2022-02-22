@@ -1,16 +1,15 @@
 import { Router } from 'express';
-// import CustomerController from '../controllers/CustomerController.ts';
+import CustomerController from '../controllers/CustomerController';
 
 class CustomerRoutes {
   router = Router();
-//   coursesCtrl = new CoursesCtrl();
+  customerController = new CustomerController();
 
   constructor() {
     this.intializeRoutes();
   }
   intializeRoutes() {
-    // this.router.route('/').get(this.coursesCtrl.getAllCourses);
-    // this.router.route('/:id').get(this.coursesCtrl.getCourseDetails);
+    this.router.route('/').get(this.customerController.getAllCustomers);
   }
 }
 export default new CustomerRoutes().router;
