@@ -12,5 +12,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Todo-App listening on localhost:${port}`);
+  console.log(`Dronuts listening on localhost:${port}`);
 });
