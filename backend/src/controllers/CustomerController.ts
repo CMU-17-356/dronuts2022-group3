@@ -7,7 +7,14 @@ export default class CustomersController {
 
   async findAll(req: Request, res: Response, next: NextFunction) {
     try {
-      res.json("Hah no customers right now. Need to connect to mongoose here and actually return to API user.");
+      CustomerModel.find(function(err, customers) {
+        if (err) {
+          console.log(err);
+          res.send(err);
+        }
+        
+        res.json(customers);
+      });
     } catch (error) {
       apiErrorHandler(error, req, res, 'Find all customers failed.');
     }
@@ -18,19 +25,16 @@ export default class CustomersController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
-    console.log(req.body)
     try {
       const newCustomer = new CustomerModel(req.body);
       newCustomer.save(function (err) {
         if (err) {
-          console.log("Error creating customer.");
           console.log(err);
-          res.json("Error");
+          res.send(err);
         } else {
           res.json(req.body);
         }
       })
-      // res.json("Create one customer lol. Need to implement.");
     } catch (error) {
       apiErrorHandler(error, req, res, "Create customer failed.");
     }
