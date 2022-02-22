@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { apiErrorHandler } from './../handlers/errorHandler';
+import { CustomerModel } from '../models/customer';
 
 export default class CustomersController {
   constructor() { }
@@ -8,7 +9,7 @@ export default class CustomersController {
     try {
       res.json("Hah no customers right now. Need to connect to mongoose here and actually return to API user.");
     } catch (error) {
-      apiErrorHandler(error, req, res, 'Fetch All Courses failed.');
+      apiErrorHandler(error, req, res, 'Find all customers failed.');
     }
   }
 
@@ -17,7 +18,22 @@ export default class CustomersController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
-    res.json("Create one customer lol. Need to implement.");
+    console.log(req.body)
+    try {
+      const newCustomer = new CustomerModel(req.body);
+      newCustomer.save(function (err) {
+        if (err) {
+          console.log("Error creating customer.");
+          console.log(err);
+          res.json("Error");
+        } else {
+          res.json(req.body);
+        }
+      })
+      // res.json("Create one customer lol. Need to implement.");
+    } catch (error) {
+      apiErrorHandler(error, req, res, "Create customer failed.");
+    }
   }
 
   async update(req: Request, res: Response, next: NextFunction) {
