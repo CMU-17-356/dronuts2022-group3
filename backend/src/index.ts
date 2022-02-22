@@ -1,7 +1,9 @@
-import express from 'express';
+import express, { Application } from 'express';
 import bodyParser from 'body-parser';
+import Routes from './routes';
 
-const app = express();
+const app: Application = express();
+const routes: Routes = new Routes(app);
 const port = 3001;
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,5 +14,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Todo-App listening on localhost:${port}`);
+  console.log(`Dronuts listening on localhost:${port}`);
 });
