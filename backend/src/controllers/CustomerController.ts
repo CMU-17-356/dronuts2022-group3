@@ -1,50 +1,91 @@
 import { Request, Response, NextFunction } from 'express';
 import { apiErrorHandler } from './../handlers/errorHandler';
 import { CustomerModel } from '../models/customer';
+import * as winston from 'winston';
 
 export default class CustomersController {
   constructor() { }
 
   async findAll(req: Request, res: Response, next: NextFunction) {
     try {
-      CustomerModel.find(function(err, customers) {
+      
+      CustomerModel.find(req.query, function(err, customers) {
         if (err) {
-          console.log(err);
-          res.send(err);
+          apiErrorHandler(err, req, res, "Find all customers failed.");
+        } else { 
+          res.json(customers);
         }
-        
-        res.json(customers);
       });
-    } catch (error) {
-      apiErrorHandler(error, req, res, 'Find all customers failed.');
+
+    } catch (err) {
+      apiErrorHandler(err, req, res, 'Find all customers failed.');
     }
   }
 
   async findOne(req: Request, res: Response, next: NextFunction) {
-    res.json("Return one customer lol. Need to implement.");
+    try {
+      
+      CustomerModel.findById(req.params.id, function(err, customer) {
+        if (err) {
+          apiErrorHandler(err, req, res, "Find customer by id failed.");
+        } else { 
+          res.json(customer);
+        }
+      });
+
+    } catch (err) {
+      apiErrorHandler(err, req, res, "Find customer by id failed.");
+    }
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const newCustomer = new CustomerModel(req.body);
-      newCustomer.save(function (err) {
+      
+      new CustomerModel(req.body).save(function (err) {
         if (err) {
-          console.log(err);
-          res.send(err);
+          apiErrorHandler(err, req, res, "Create customer failed.");
         } else {
-          res.json(req.body);
+          res.sendStatus(201);
         }
-      })
-    } catch (error) {
-      apiErrorHandler(error, req, res, "Create customer failed.");
+      });
+
+    } catch (err) {
+      apiErrorHandler(err, req, res, "Create customer failed.");
     }
   }
 
   async update(req: Request, res: Response, next: NextFunction) {
-    res.json("Update one customer lol. Need to implement.");
+    try {
+      
+      CustomerModel.findByIdAndUpdate(req.params.id, {$set: req.body}, {upsert: true, runValidators: true}, function(err) {
+        console.log(req.body);
+        if (err) {
+          apiErrorHandler(err, req, res, "Update customer failed.");
+        } else {
+          res.sendStatus(200);
+        }
+      });
+      
+    } catch (err) {
+      apiErrorHandler(err, req, res, "Update customer failed.");
+    }
   }
 
   async delete(req: Request, res: Response, next: NextFunction) {
-    res.json("Delete one customer lol. Need to implement.");
+    try {
+      
+      CustomerModel.deleteOne({_id: req.params.id}, function(err, deleteRes) {
+        if (err) {
+          apiErrorHandler(err, req, res, "Delete customer failed.");
+        } else if (deleteRes.deletedCount == 0) {
+          res.sendStatus(204);
+        } else {
+          res.sendStatus(200);
+        }
+      });
+
+    } catch (err) {
+      apiErrorHandler(err, req, res, "Delete customer failed.");
+    }
   }
 }
