@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "76c4636c-2ff8-4fd6-9896-24856c207f78",
+		"name": "Dronuts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customer Creation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\": \"Riccardo\",\n\t\"last_name\": \"Santoni\",\n\t\"email\": \"rsantoni@andrew.cmu.edu\",\n\t\"phone_number\": \"415-509-2966\",\n\t\"password\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/v1/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Deletion",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\": \"Riccardo\",\n\t\"last_name\": \"test\",\n\t\"email\": \"testemail@andrew.cmu.edu\",\n\t\"phone_number\": \"test-509-2966\",\n\t\"password\": \"test12321\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/v1/customers/621540a38b4fb93738a5807b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"customers",
+						"621540a38b4fb93738a5807b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Store Creation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Test Store\",\n    \"email\": \"rsantoni@andrew.cmu.edu\",\n    \"phone_number\": \"415-509-2966\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/v1/stores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"stores"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
