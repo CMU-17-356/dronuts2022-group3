@@ -4,10 +4,11 @@ import Home from './components/Home/Home';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from "./components/Theme/Theme";
-import Orders from './components/Dashboard/Orders';
 
 import ResponsiveAppBar from './components/Home/ResponsiveAppBar';
+import CustomerMenu from './components/Customer/CustomerMenu';
 import TrackOrder from './components/Customer/TrackOrder';
+import Cart from './components/Customer/Cart';
 import Dashboard from './components/Dashboard/Dashboard';
 
 import {
@@ -26,7 +27,9 @@ function App() {
         <CssBaseline />
         <ResponsiveAppBar></ResponsiveAppBar>
         <Routes>
-          <Route path="/customer" element={<TrackOrder />} />
+          <Route path="/customer" element={<CustomerMenu />} />
+          <Route path="/order" element={<TrackOrder />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/employee" element={<Dashboard />} />
           <Route path="" element={<Home />} />
         </Routes>
