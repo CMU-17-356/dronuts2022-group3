@@ -84,7 +84,7 @@ export default function Orders() {
             <Div> Order for Customer {row.first_name} {row.last_name} </Div>
             <FormControl>
                 {row.items.map((donut)=>(
-                  <FormControlLabel value={donut} control={<Checkbox checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }}/>}
+                  <FormControlLabel value={donut} control={<Checkbox checked={checked} onChange={handleChange}/>}
                    label={donut} labelPlacement="start"/>
                 ))}
             </FormControl>
