@@ -11,28 +11,30 @@ import { createTheme } from '@mui/material/styles';
 
 
 const theme = createTheme({
-palette: {
-    primary: {
-        main: '#6f7d8c',
-    },
-    secondary: {
-        main: '#f190bd',
-    },
-    error: {
-        main: '#d47f53',
-    },
-    success: {
-        main: '#fefefe',
-    },
-    info: {
-        main: '#f0f0f0',
-    },
-    background: {
-        default: '#fafafa',
-    },
-    warning: {
-        main: '#d47f53',
-    },
+    palette: {
+        primary: {
+            main: '#fafafa',
+            // main: '#6f7d8c',
+        },
+        secondary: {
+            main: '#ED71AB',
+            // main: '#f190bd',
+        },
+        error: {
+            main: '#d47f53',
+        },
+        success: {
+            main: '#fefefe',
+        },
+        info: {
+            main: '#f0f0f0',
+        },
+        background: {
+            default: '#fafafa',
+        },
+        warning: {
+            main: '#d47f53',
+        },
     },
 });
 
