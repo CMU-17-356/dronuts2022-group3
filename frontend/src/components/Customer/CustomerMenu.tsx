@@ -12,8 +12,8 @@ import {
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import DonutInterface from '../Donuts/Donut';
-import { donutImages } from '../Donuts/donutImages';
+import DonutInterface from '../Dronut/Donut';
+import { donutImages } from '../Dronut/donutImages';
 
 function Copyright() {
   return (
@@ -50,7 +50,7 @@ function Menu() {
         {/* End hero unit */}
         <Grid container spacing={4}>
           {donuts.map((donut) => (
-            <Grid item key={donut.id} xs={12} sm={6} md={4}>
+            <Grid item key={donut._id} xs={12} sm={6} md={4}>
               <Card
                 sx={{
                   height: '100%',

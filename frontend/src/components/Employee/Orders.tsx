@@ -22,15 +22,17 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import { createStyles, makeStyles } from '@mui/styles';
 import React, { useEffect } from 'react';
-import DonutInterface from '../Donuts/Donut';
-import { donutImages } from '../Donuts/donutImages';
+import DonutInterface from '../Dronut/Donut';
+import DroneInterface from '../Drone/Drone';
+import { donutImages } from '../Dronut/donutImages';
 
 // TODO (rsantoni) : Improve interface with all relevant details
 
 export interface Order {
-  id: number;
+  _id: number;
   first_name: string;
   last_name: string;
+  drone: DroneInterface;
   items: Array<DonutInterface>;
   price: number;
 }
@@ -45,7 +47,7 @@ export default function Orders() {
 
   function handleCompleteOrder(id) {
     console.log(id);
-    const newOrders = orders.filter((item) => item.id !== id);
+    const newOrders = orders.filter((item) => item._id !== id);
     // const oldOrder = orders.filter((item) => item.id == id);
     // const orderlength = oldOrder[0].items.length;
     // console.log(oldOrder[0].items);
@@ -78,9 +80,10 @@ export default function Orders() {
           console.log('items: ');
           console.log(order.items);
           let new_order: Order = {
-            id: order._id,
+            _id: order._id,
             first_name: customerResponse.first_name,
             last_name: customerResponse.last_name,
+            drone: order.drone,
             items: order.items,
             price: order.price
           };
@@ -122,7 +125,7 @@ export default function Orders() {
           <Table size="medium">
             <TableBody>
               {orders.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row._id}>
                   <Card>
                     <CardContent>
                       <Box
@@ -138,7 +141,7 @@ export default function Orders() {
                         <InputLabel>
                           Order for {row.first_name} {row.last_name}{' '}
                         </InputLabel>
-                        <InputLabel>Drone Id : {row.id}</InputLabel>
+                        <InputLabel>Drone Id : {row.drone._id}</InputLabel>
                       </Box>
                       <Grid lg={12} md={8} sm={12}>
                         <List>
@@ -150,10 +153,7 @@ export default function Orders() {
                                   src={donutImages[donut.flavor]}
                                 />
                               </ListItemAvatar>
-                              <ListItemText
-                                primary={donut.flavor}
-                                secondary={'Secondary text'}
-                              />
+                              <ListItemText primary={donut.flavor} />
                               <ListItemText
                                 style={{
                                   display: 'flex',
@@ -194,7 +194,7 @@ export default function Orders() {
                           }}
                           variant="contained"
                           endIcon={<SendIcon />}
-                          onClick={() => handleCompleteOrder(row.id)}
+                          onClick={() => handleCompleteOrder(row._id)}
                         >
                           Order Packed
                         </Button>

@@ -1,5 +1,5 @@
 export default interface DonutInterface {
-  id: string;
+  _id: string;
   flavor: string;
   price: number;
 }
