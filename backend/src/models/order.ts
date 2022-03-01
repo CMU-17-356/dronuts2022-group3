@@ -10,8 +10,11 @@ export interface OrderInterface extends Document {
     drone: DroneInterface,
     location: LocationInterface,
     store: StoreInterface,
-    order_items: [DonutInterface]
-    order_total: number
+    items: [DonutInterface],
+    total: number,
+    status: string,
+    start_time: Date,
+    end_time: Date
 }
 
 export const OrderSchema = new Schema({
@@ -19,8 +22,11 @@ export const OrderSchema = new Schema({
     drone: {type: DroneSchema, required: true},
     location: {type: LocationSchema, required: true},
     store: {type: StoreSchema, required: true},
-    order_items: {type: [DonutSchema], required: true},
-    order_price: {type: Number, required: true}
+    items: {type: [DonutSchema], required: true},
+    price: {type: Number, required: true},
+    status: {type: String, enum: ["Accepted", "Preparing", "Delivering", "Delivered", "Canceled"], required: true},
+    start_time: {type: Date, required: true},
+    end_time: {type: Date, required: true}
 });
 
 export const OrderModel: Model<OrderInterface> = mongoose.model('Order', OrderSchema);
