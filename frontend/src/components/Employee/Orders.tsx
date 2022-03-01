@@ -1,73 +1,27 @@
-import * as React from 'react';
-import Link from '@mui/material/Link';
+import SendIcon from '@mui/icons-material/Send';
+import { Box, Button, Card, CardActions, CardContent, Checkbox, FormControl, FormControlLabel, InputLabel } from '@mui/material';
+import { grey, red } from '@mui/material/colors';
+import { styled, Theme } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Title from './Title';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, CardActions, CardContent, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, Paper, Typography} from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import { styled, Theme } from '@mui/material/styles';
-import { red, grey} from '@mui/material/colors';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { createStyles, makeStyles } from "@mui/styles";
-import { setMaxListeners } from 'process';
-import { isTemplateMiddle } from 'typescript';
+import React, { useEffect } from 'react';
+import Title from './Title';
 
+// TODO (rsantoni) : Improve interface with all relevant details
 
-
-
-// Generate Order Data
-function createData(
+export interface Order {
   id: number,
   first_name: string,
   last_name: string,
   items: string[]
-  // shipTo: string,
-  // paymentMethod: string,
-  // amount: number,
-) {
-  return { id, first_name,last_name, items };
+  price: number,
 }
-function OrderScroll(props){
-  /*TODO Funmbi --> implement order scrollable functionality */
-}
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  left: 'calc(80% - 10px)',
-  color: theme.palette.text.secondary,
-}));
-const rows = [
-  createData(
-    0,
-    'John',
-    "Smith",
-    ['glazed donut', 'crueller','cronut']
-  ),
-  createData(
-    1,
-    'Eleanor',
-    'McCartney',
-    ['glazed donut', 'old fashioned','boston cream']
-  ),
-  createData(
-    2,
-    'Jane',
-    'Harrison',
-    ['glazed donut', 'crueller','cronut']
-  ),
-  createData(
-    3,
-    'Paul',
-    'Garrett',
-    ['glazed donut', 'crueller','cronut']
-  ),
-];
 
+// function OrderScroll(props){
+//   /*TODO Funmbi --> implement order scrollable functionality */
+// }
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -96,7 +50,7 @@ const UpdatedButton = styled(Button)(({ theme }) => ({
   backgroundColor: red[500],
 }));
 export default function Orders() {
-  const [orders, setOrders] = React.useState(rows);
+  const [orders, setOrders] = React.useState<Array<Order>>([]);
   const [checked, setChecked] = React.useState({});
 
   function handleCompleteOrder(id){
@@ -122,6 +76,47 @@ export default function Orders() {
     setChecked(value);
   };
   const classes = useStyles();
+
+  async function fetchOrders() {
+    try {
+      console.log("fetching")
+      const response = await fetch('/orders').then((res) => (res.json()));
+      const orders : Order[] = [];
+
+      
+      await Promise.all(response.map(async (order) => {
+        let new_items : string[] = [];
+
+        order.items.forEach((item) => {
+          new_items.push(item.flavor);
+        })
+        
+        const customerResponse = await fetch('/customers/' + order.customer).then((res) => (res.json()));
+        console.log(customerResponse);
+
+        let new_order = {id: 11,
+          first_name: customerResponse.first_name,
+          last_name: customerResponse.last_name,
+          items: new_items,
+          price: order.price
+        };
+
+
+        orders.push(new_order)
+      }));
+
+      setOrders(orders);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  // fetchOrders();
+
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>

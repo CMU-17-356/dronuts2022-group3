@@ -1,24 +1,19 @@
-import './App.css';
-
-import Home from './components/Home/Home';
-import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from "./components/Theme/Theme";
-
-import ResponsiveAppBar from './components/Home/ResponsiveAppBar';
+import { ThemeProvider } from '@mui/material/styles';
+import {
+  BrowserRouter as Router, Route, Routes
+} from "react-router-dom";
+import './App.css';
+import Cart from './components/Customer/Cart';
 import CustomerMenu from './components/Customer/CustomerMenu';
 import TrackOrder from './components/Customer/TrackOrder';
-import Cart from './components/Customer/Cart';
 import EmployeeDashboard from './components/Employee/EmployeeDashboard';
+import Home from './components/Home/Home';
+import ResponsiveAppBar from './components/Home/ResponsiveAppBar';
+import theme from "./components/Theme/Theme";
 
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Link,
-    useMatch,
-    useParams
-  } from "react-router-dom";
+
+
 
 function App() {
   return (
