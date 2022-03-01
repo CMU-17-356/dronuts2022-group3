@@ -1,5 +1,4 @@
 import {
-  AppBar,
   Box,
   Button,
   Card,
@@ -9,39 +8,12 @@ import {
   Container,
   CssBaseline,
   Grid,
-  Toolbar,
   Typography
 } from '@mui/material';
-import RestaurantMenuTwoToneIcon from '@mui/icons-material/RestaurantMenuTwoTone';
-import { Link } from 'react-router-dom';
 import React, { useEffect } from 'react';
-
-const donutImages = {
-  'Apple Krumb': require('../../assets/apple_krumb.jpeg'),
-  'Bavarian Kreme': require('../../assets/bavarian_kreme.jpeg'),
-  Blueberry: require('../../assets/blueberry.jpeg'),
-  'Boston Kreme': require('../../assets/boston_kreme.jpeg'),
-  'Chocolate Frosted': require('../../assets/chocolate_frosted.jpeg'),
-  'Chocolate Glaze': require('../../assets/chocolate_glaze.jpeg'),
-  'Cinnamon Sugar': require('../../assets/cinnamon_sugar.jpeg'),
-  'Marble Frosted': require('../../assets/marble_frosted.jpeg'),
-  'Old Fashioned': require('../../assets/old_fashioned.jpeg'),
-  'Original Glaze': require('../../assets/original_glaze.jpeg'),
-  'Powdered Sugar': require('../../assets/powdered_sugar.jpeg'),
-  'Sour Cream': require('../../assets/sour_cream.jpeg'),
-  'Strawberry Frosted': require('../../assets/strawberry_frosted.jpeg'),
-  'Vanilla Frosted': require('../../assets/vanilla_frosted.jpeg'),
-  Coconut: require('../../assets/coconut.jpeg'),
-  Cruller: require('../../assets/cruller.jpeg'),
-  Jelly: require('../../assets/jelly.jpeg'),
-  'Chocolate Kreme': require('../../assets/chocolate_kreme.jpeg')
-};
-
-export interface Donut {
-  id: string;
-  flavor: string;
-  price: number;
-}
+import { Link } from 'react-router-dom';
+import DonutInterface from '../Donuts/Donut';
+import { donutImages } from '../Donuts/donutImages';
 
 function Copyright() {
   return (
@@ -57,7 +29,7 @@ function Copyright() {
 }
 
 function Menu() {
-  const [donuts, setDonuts] = React.useState<Array<Donut>>([]);
+  const [donuts, setDonuts] = React.useState<Array<DonutInterface>>([]);
 
   async function fetchDonuts() {
     try {
