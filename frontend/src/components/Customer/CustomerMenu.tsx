@@ -1,9 +1,47 @@
-import * as React from 'react';
-import {AppBar, Box, Button, Card, CardActions, CardContent, CardMedia, Container,
-CssBaseline, Grid, Toolbar, Typography} from '@mui/material'
+import {
+  AppBar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Container,
+  CssBaseline,
+  Grid,
+  Toolbar,
+  Typography
+} from '@mui/material';
 import RestaurantMenuTwoToneIcon from '@mui/icons-material/RestaurantMenuTwoTone';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+
+const donutImages = {
+  'Apple Krumb': require('../../assets/apple_krumb.jpeg'),
+  'Bavarian Kreme': require('../../assets/bavarian_kreme.jpeg'),
+  Blueberry: require('../../assets/blueberry.jpeg'),
+  'Boston Kreme': require('../../assets/boston_kreme.jpeg'),
+  'Chocolate Frosted': require('../../assets/chocolate_frosted.jpeg'),
+  'Chocolate Glaze': require('../../assets/chocolate_glaze.jpeg'),
+  'Cinnamon Sugar': require('../../assets/cinnamon_sugar.jpeg'),
+  'Marble Frosted': require('../../assets/marble_frosted.jpeg'),
+  'Old Fashioned': require('../../assets/old_fashioned.jpeg'),
+  'Original Glaze': require('../../assets/original_glaze.jpeg'),
+  'Powdered Sugar': require('../../assets/powdered_sugar.jpeg'),
+  'Sour Cream': require('../../assets/sour_cream.jpeg'),
+  'Strawberry Frosted': require('../../assets/strawberry_frosted.jpeg'),
+  'Vanilla Frosted': require('../../assets/vanilla_frosted.jpeg'),
+  Coconut: require('../../assets/coconut.jpeg'),
+  Cruller: require('../../assets/cruller.jpeg'),
+  Jelly: require('../../assets/jelly.jpeg'),
+  'Chocolate Kreme': require('../../assets/chocolate_kreme.jpeg')
+};
+
+export interface Donut {
+  id: string;
+  flavor: string;
+  price: number;
+}
 
 function Copyright() {
   return (
@@ -18,38 +56,56 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const donuts = ["Glazed", "Chocolate", "Boston Kreme", "Strawberry",
-"Sprinkles", "Apple Krumb", "Powdered", "Krueller", "Munchkin"]
+function Menu() {
+  const [donuts, setDonuts] = React.useState<Array<Donut>>([]);
 
-const theme = createTheme();
+  async function fetchDonuts() {
+    try {
+      const response = await fetch('/donuts').then((res) => res.json());
+      setDonuts(response);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-function Menu(){
-  return(
-  <main>
+  useEffect(() => {
+    fetchDonuts();
+  }, []);
+
+  return (
+    <main>
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
-          {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
+          {donuts.map((donut) => (
+            <Grid item key={donut.id} xs={12} sm={6} md={4}>
               <Card
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
               >
                 <CardMedia
                   component="img"
-                  image="https://www.krispykreme.com/App_Themes/krispykremenew/Content/images/loyalty/reward-doughnut.png"
+                  image={donutImages[donut.flavor]} // require image
                   alt="donut"
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {(donuts[card-1])}
+                    {donut.flavor}
                   </Typography>
-                  <Typography>
-                    This is a donut card. The donut's description will go here.
-                  </Typography>
+                  <Typography>$ {donut.price}</Typography>
                 </CardContent>
                 <CardActions>
-                  <Button component={Link} to={'/cart'} size="small">Add to Cart</Button>
+                  <Button
+                    color="secondary"
+                    component={Link}
+                    to={'/cart'}
+                    size="small"
+                  >
+                    Add to Cart
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>
@@ -62,18 +118,9 @@ function Menu(){
 
 export default function CustomerMenu() {
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <RestaurantMenuTwoToneIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Dronuts Menu 
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <Menu />
-      {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
           Footer
@@ -88,7 +135,6 @@ export default function CustomerMenu() {
         </Typography>
         <Copyright />
       </Box>
-      {/* End footer */}
-    </ThemeProvider>
+    </>
   );
 }
