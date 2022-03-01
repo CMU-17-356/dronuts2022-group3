@@ -5,6 +5,7 @@ import employeeRouter from './EmployeeRoutes';
 import orderRouter from './OrderRoutes';
 import donutRouter from './DonutRoutes';
 import locationRouter from './LocationRoutes';
+import droneRouter from './DroneRoutes';
 
 export default class Routes {
 
@@ -14,6 +15,8 @@ export default class Routes {
     app.use('/api/v1/employees', employeeRouter);
     app.use('/api/v1/orders', orderRouter);
     app.use('/api/v1/locations', locationRouter);
+    app.use('/api/v1/donuts', donutRouter);
+    app.use('api/v1/drones', droneRouter);
   }
 }
 
