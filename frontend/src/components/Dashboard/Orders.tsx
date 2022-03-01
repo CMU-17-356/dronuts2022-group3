@@ -12,6 +12,8 @@ import { styled, Theme } from '@mui/material/styles';
 import { red, grey} from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { createStyles, makeStyles } from "@mui/styles";
+import { setMaxListeners } from 'process';
+import { isTemplateMiddle } from 'typescript';
 
 
 
@@ -50,7 +52,7 @@ const rows = [
     1,
     'Eleanor',
     'McCartney',
-    ['glazed donut', 'crueller','cronut']
+    ['glazed donut', 'old fashioned','boston cream']
   ),
   createData(
     2,
@@ -94,7 +96,23 @@ const UpdatedButton = styled(Button)(({ theme }) => ({
   backgroundColor: red[500],
 }));
 export default function Orders() {
+  const [orders, setOrders] = React.useState(rows);
   const [checked, setChecked] = React.useState({});
+
+  function handleCompleteOrder(id){
+    console.log(id);
+    const newOrders = orders.filter((item) => item.id !== id);
+    // const oldOrder = orders.filter((item) => item.id == id);
+    // const orderlength = oldOrder[0].items.length;
+    // console.log(oldOrder[0].items);
+    // for(var i = 0; i < orderlength; i++ ){
+    //   console.log("donut state");
+    //   const donut = oldOrder[0].items[i];
+    //   console.log(donut.checked);
+    // }
+    setOrders(newOrders);
+  }
+  
 
   const handleChange = (event) => {
     const value = {
@@ -109,8 +127,8 @@ export default function Orders() {
       <Title>Recent Orders</Title>
       <Table size="small">
       <TableBody>
-      {rows.map((row) =>(
-        <TableRow>
+      {orders.map((row) =>(
+        <TableRow key = {row.id}>
         <Card>
           <CardContent>
             <Div> 
@@ -136,7 +154,7 @@ export default function Orders() {
             </FormControl>
           </CardContent>
           <CardActions>
-          <UpdatedButton variant="contained" endIcon={<SendIcon />}>Order Packed</UpdatedButton>
+          <UpdatedButton variant="contained" endIcon={<SendIcon />} onClick={() => handleCompleteOrder(row.id)}>Order Packed</UpdatedButton>
           </CardActions>
         </Card>
         </TableRow>
