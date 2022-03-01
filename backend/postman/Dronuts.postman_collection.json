@@ -114,6 +114,99 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Drone Creation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"battery_life\": 12,\n    \"critical\": false\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/v1/drones",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"drones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Location Creation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"street_address\": \"5318 beeler street\",\n    \"city\": \"Pittsburgh\",\n    \"state\": \"PA\",\n    \"zipcode\": \"15217\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/v1/locations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Creation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customer\": \"62156bc7d87cc8c8385ae3e2\",\n    \"drone\": {\"battery_life\": 12, \"critical\": false},\n    \"location\": \"621d97a5e5b76f899d2f88f4\",\n    \"items\": [],\n    \"price\": 12.12,\n    \"status\": \"Preparing\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/v1/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"orders"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

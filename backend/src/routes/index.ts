@@ -16,7 +16,7 @@ export default class Routes {
     app.use('/api/v1/orders', orderRouter);
     app.use('/api/v1/locations', locationRouter);
     app.use('/api/v1/donuts', donutRouter);
-    app.use('api/v1/drones', droneRouter);
+    app.use('/api/v1/drones', droneRouter);
   }
 }
 
