@@ -27,10 +27,11 @@ function Copyright() {
     </Typography>
   );
 }
+const items : Array<DonutInterface> = [];
 
 function Menu() {
   const [donuts, setDonuts] = React.useState<Array<DonutInterface>>([]);
-
+  
   async function fetchDonuts() {
     try {
       const response = await fetch('/donuts').then((res) => res.json());
@@ -44,6 +45,10 @@ function Menu() {
     fetchDonuts();
   }, []);
 
+  function handleAddItem(item) {
+    items.push(item);
+  }
+    
   return (
     <main>
       <Container sx={{ py: 8 }} maxWidth="md">
@@ -72,8 +77,7 @@ function Menu() {
                 <CardActions>
                   <Button
                     color="secondary"
-                    component={Link}
-                    to={'/cart'}
+                    onClick={() => handleAddItem(donut)}
                     size="small"
                   >
                     Add to Cart
@@ -84,6 +88,12 @@ function Menu() {
           ))}
         </Grid>
       </Container>
+      <Button
+        color="secondary"
+        component={Link}
+        to={'/cart'}>
+          Continue to Cart
+      </Button>
     </main>
   );
 }
@@ -110,3 +120,5 @@ export default function CustomerMenu() {
     </>
   );
 }
+
+export {items}

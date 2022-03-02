@@ -1,338 +1,90 @@
-import * as React from 'react';
 import { Button, Card, CardContent, Container, Typography, TextField, 
         Radio, RadioGroup, FormControlLabel, FormControl, FormLabel}
         from '@mui/material';
 import {Box, Table, TableBody, TableCell, TableContainer, TableHead,
-        TableRow, TableSortLabel, Toolbar, Paper, Checkbox, Tooltip} 
+        TableRow, Paper} 
         from '@mui/material';
-import { alpha } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
 import { Link } from 'react-router-dom';
+import DonutInterface from '../Dronut/Donut';
+import DroneInterface from '../Drone/Drone';
+import {items} from '../Customer/CustomerMenu';
 
-interface Data {
-  quantity: number;
+export interface Order {
+  _id: number;
+  first_name: string;
+  last_name: string;
+  drone: DroneInterface;
+  items: Array<DonutInterface>;
   price: number;
-  name: string;
 }
 
-function createData(
-  name: string,
-  quantity: number,
-  price: number,
-): Data {
-  return {
-    name,
-    quantity,
-    price
+async function handlePlaceOrder() {  
+  const newOrder = {
+    "customer": "621ebac6b299fa068acf30fe", 
+    "drone": {"battery_life": 10, "critical": false}, 
+    "location": {
+      "street_address": "5318 beeler street",
+      "city": "Pittsburgh",
+      "state": "PA",
+      "zipcode": "15217"
+  }, 
+    "items": items,
+    "total": invoiceTotal, 
+    "status": "Preparing" 
   };
-}
+  console.log(newOrder);
 
-
-const rows = [
-  createData('Boston Kreme', 1, 3.49),
-  createData('Glazed', 4, 11.96),
-  createData('Apple Krumb', 2, 7.98),
-];
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-type Order = 'asc' | 'desc';
-
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key,
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
-) => number {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
+  fetch('/orders', {
+    method: 'POST',
+    body: JSON.stringify(newOrder),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     }
-    return a[1] - b[1];
   });
-  return stabilizedThis.map((el) => el[0]);
-}
 
-function subtotal(items: readonly Data[]) {
-  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
-
-const TAX_RATE = 0.07;
-const invoiceSubtotal = subtotal(rows);
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 function ccyFormat(num: number) {
   return `${num.toFixed(2)}`;
 }
 
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
+function subtotal(items: readonly DonutInterface[]) {
+  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
 
-const headCells: readonly HeadCell[] = [
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Item',
-  },
-  {
-    id: 'quantity',
-    numeric: true,
-    disablePadding: false,
-    label: 'Qty',
-  },
-  {
-    id: 'price',
-    numeric: true,
-    disablePadding: false,
-    label: 'Price ($)',
-  }
-];
-
-interface EnhancedTableProps {
-  numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
-  const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-}
-
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Ordered Items
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
+const TAX_RATE = 0.07;
+const invoiceSubtotal = subtotal(items);
+const invoiceTaxes = TAX_RATE * invoiceSubtotal;
+const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 function OrderedItems() {
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('quantity');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data,
-  ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
-
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={'small'}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.quantity}</TableCell>
-                      <TableCell align="right">{ccyFormat(row.price)}</TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Donut</TableCell>
+            <TableCell align="right">Price</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow
+              key={item._id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {item.flavor}
+              </TableCell>
+              <TableCell align="right">{item.price}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
         <Button variant="contained" component={Link} to={'/customer'} sx={{margin: 2}}>Add Items</Button> 
       </Paper>
     </Box>
@@ -411,7 +163,13 @@ function CartContent(){
         <PaymentDetails />
       </CardContent>
       </Card>
-      <Button variant="contained" color="secondary" component={Link} to={'/order'} sx={{mt: 2}}>Place Order</Button>
+      <Button 
+      variant="contained" 
+      color="secondary" 
+      component={Link} 
+      to={'/order'} 
+      onClick={() => handlePlaceOrder()}
+      sx={{mt: 2}}>Place Order</Button>
   </Container>
     );
 }
