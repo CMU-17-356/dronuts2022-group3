@@ -25,7 +25,7 @@ export const OrderSchema = new Schema({
     location: {type: LocationSchema, required: true},
     store: {type: StoreSchema},
     items: {type: [DonutSchema], required: true},
-    price: {type: Number, required: true},
+    total: {type: Number, required: true},
     status: {type: String, enum: ["Accepted", "Preparing", "Delivering", "Delivered", "Canceled"], required: true},
     start_time: {type: Date, default: Date.now},
     end_time: {type: Date}
