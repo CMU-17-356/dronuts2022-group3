@@ -10,17 +10,25 @@ export interface OrderInterface extends Document {
     drone: DroneInterface,
     location: LocationInterface,
     store: StoreInterface,
-    order_items: [DonutInterface]
-    order_total: number
+    items: [DonutInterface],
+    total: number,
+    status: string,
+    start_time: Date,
+    end_time: Date
 }
 
 export const OrderSchema = new Schema({
-    customer: {type: CustomerSchema, required: true},
+    customer: { type: mongoose.Schema.Types.ObjectId,
+        ref: "CustomerSchema"
+    },
     drone: {type: DroneSchema, required: true},
     location: {type: LocationSchema, required: true},
-    store: {type: StoreSchema, required: true},
-    order_items: {type: [DonutSchema], required: true},
-    order_price: {type: Number, required: true}
+    store: {type: StoreSchema},
+    items: {type: [DonutSchema], required: true},
+    price: {type: Number, required: true},
+    status: {type: String, enum: ["Accepted", "Preparing", "Delivering", "Delivered", "Canceled"], required: true},
+    start_time: {type: Date, default: Date.now},
+    end_time: {type: Date}
 });
 
 export const OrderModel: Model<OrderInterface> = mongoose.model('Order', OrderSchema);

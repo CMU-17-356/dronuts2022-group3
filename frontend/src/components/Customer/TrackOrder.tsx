@@ -1,28 +1,6 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import RestaurantMenuTwoToneIcon from '@mui/icons-material/RestaurantMenuTwoTone';import Card from '@mui/material/Card';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Typography from '@mui/material/Typography'
-import Toolbar from '@mui/material/Toolbar';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { Box, Card, CardContent, CardMedia, Container, Stepper,
+  Step, StepLabel, Typography, Table, TableBody, TableCell, 
+  TableContainer, TableHead, TableRow, Paper} from '@mui/material';
 
 const steps = [
   'Prepare Order',
@@ -115,8 +93,7 @@ function OrderItemsTable() {
             <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Tax</TableCell>
-            <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
+            <TableCell colSpan={2}>Fees & Estimated Tax</TableCell>
             <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
           </TableRow>
           <TableRow>

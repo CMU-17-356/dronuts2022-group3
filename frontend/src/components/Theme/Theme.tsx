@@ -9,31 +9,32 @@
 
 import { createTheme } from '@mui/material/styles';
 
-
 const theme = createTheme({
-palette: {
+  palette: {
     primary: {
-        main: '#6f7d8c',
+      main: '#fafafa'
+      // main: '#6f7d8c',
     },
     secondary: {
-        main: '#f190bd',
+      main: '#F190BD'
+      // main: '#f190bd',
     },
     error: {
-        main: '#d47f53',
+      main: '#d47f53'
     },
     success: {
-        main: '#fefefe',
+      main: '#fefefe'
     },
     info: {
-        main: '#f0f0f0',
+      main: '#f0f0f0'
     },
     background: {
-        default: '#fafafa',
+      default: '#fafafa'
     },
     warning: {
-        main: '#d47f53',
-    },
-    },
+      main: '#d47f53'
+    }
+  }
 });
 
 export default theme;
