@@ -1,6 +1,23 @@
-import { Box, Card, CardContent, CardMedia, Container, Stepper,
-  Step, StepLabel, Typography, Table, TableBody, TableCell, 
-  TableContainer, TableHead, TableRow, Paper} from '@mui/material';
+import { 
+  Box, 
+  Card, 
+  CardContent, 
+  CardMedia, 
+  Container, 
+  Stepper,
+  Step, 
+  StepLabel, 
+  Typography, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  Paper} from '@mui/material';
+import React, { useEffect } from 'react';
+import DroneInterface from '../Drone/Drone';
+import DonutInterface from '../Drone/Drone';
 
 const steps = [
   'Prepare Order',
@@ -60,7 +77,23 @@ const invoiceSubtotal = subtotal(rows);
 const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
-function OrderItemsTable() {
+export interface Order {
+  _id: number;
+  first_name: string;
+  last_name: string;
+  drone: DroneInterface;
+  items: Array<DonutInterface>;
+  price: number;
+}
+
+// function OrderScroll(props){
+//   /*TODO Funmbi --> implement order scrollable functionality */
+// }
+
+
+
+function OrderItemsTable(orders) {
+  const order = orders[0];
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="spanning table">
@@ -128,8 +161,7 @@ function DeliveryCard() {
     );
 }
 
-
-function OrderDetailsCard(){
+function OrderDetailsCard(orders){
     return (
         <Container sx={{ py: 8 }} maxWidth="md">
             <Card 
@@ -139,7 +171,7 @@ function OrderDetailsCard(){
             <Typography gutterBottom variant="h5" component="h2">
                 Order Details
             </Typography>
-            <OrderItemsTable></OrderItemsTable>
+            <OrderItemsTable>(orders)</OrderItemsTable>
             </CardContent>
             </Card>
         </Container>
@@ -147,10 +179,49 @@ function OrderDetailsCard(){
 }
 
 export default function TrackOrder() {
+  const [orders, setOrders] = React.useState<Array<Order>>([]);
+  const [checked, setChecked] = React.useState({});
+
+  async function fetchOrders() {
+    try {
+      const response = await fetch('/orders').then((res) => res.json());
+      const orders: Order[] = [];
+
+      await Promise.all(
+        response.map(async (order) => {
+          const customerResponse = await fetch(
+            '/customers/' + order.customer
+          ).then((res) => res.json());
+          console.log('items: ');
+          console.log(order.items);
+          let new_order: Order = {
+            _id: order._id,
+            first_name: customerResponse.first_name,
+            last_name: customerResponse.last_name,
+            drone: order.drone,
+            items: order.items,
+            price: order.price
+          };
+
+          orders.push(new_order);
+        })
+      );
+
+      setOrders(orders);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+  console.log(orders);
+
     return (
       <main>
           <DeliveryCard></DeliveryCard>
-          <OrderDetailsCard></OrderDetailsCard>
+          <OrderDetailsCard>(orders)</OrderDetailsCard>
       </main>
     );
 }
