@@ -35,29 +35,15 @@ export interface Order {
   drone: DroneInterface;
   items: Array<DonutInterface>;
   price: number;
+  status: string;
 }
 
-// function OrderScroll(props){
-//   /*TODO Funmbi --> implement order scrollable functionality */
-// }
 
 export default function Orders() {
   const [orders, setOrders] = React.useState<Array<Order>>([]);
   const [checked, setChecked] = React.useState({});
 
-  function handleCompleteOrder(id) {
-    console.log(id);
-    const newOrders = orders.filter((item) => item._id !== id);
-    // const oldOrder = orders.filter((item) => item.id == id);
-    // const orderlength = oldOrder[0].items.length;
-    // console.log(oldOrder[0].items);
-    // for(var i = 0; i < orderlength; i++ ){
-    //   console.log("donut state");
-    //   const donut = oldOrder[0].items[i];
-    //   console.log(donut.checked);
-    // }
-    setOrders(newOrders);
-  }
+  
 
   const handleChange = (event) => {
     const value = {
@@ -66,7 +52,6 @@ export default function Orders() {
     };
     setChecked(value);
   };
-
   async function fetchOrders() {
     try {
       const response = await fetch('/orders').then((res) => res.json());
@@ -74,24 +59,30 @@ export default function Orders() {
 
       await Promise.all(
         response.map(async (order) => {
-          const customerResponse = await fetch(
-            '/customers/' + order.customer
-          ).then((res) => res.json());
-          console.log('items: ');
-          console.log(order.items);
-          let new_order: Order = {
-            _id: order._id,
-            first_name: customerResponse.first_name,
-            last_name: customerResponse.last_name,
-            drone: order.drone,
-            items: order.items,
-            price: order.price
-          };
+          console.log("status: ", order.status);
+          if(order.status == "Preparing"){
+            const customerResponse = await fetch(
+              '/customers/' + order.customer
+            ).then((res) => res.json());
+            console.log('items: ');
+            
+            let new_order: Order = {
+              _id: order._id,
+              first_name: customerResponse.first_name,
+              last_name: customerResponse.last_name,
+              drone: order.drone,
+              items: order.items,
+              price: order.price, 
+              status: order.status,
+            };
 
-          orders.push(new_order);
+            orders.push(new_order);
+            console.log("order: ",orders);
+          }
+          
+
         })
       );
-
       setOrders(orders);
     } catch (e) {
       console.error(e);
@@ -101,7 +92,23 @@ export default function Orders() {
   useEffect(() => {
     fetchOrders();
   }, []);
+  function handleCompleteOrder(id) {
+    const response =  fetch('/orders/'+id).then((res) => res.json());
+    console.log("response: ", response);
+    let updateOrder = {
+      "status": "Delivering"
+    }
+    console.log(id);
+    const newOrders = orders.filter((item) => item._id !== id);
+    fetch('/orders/'+id, {
+      method: 'PUT',
+      body: JSON.stringify(updateOrder),
+      headers: {"Content-Type": "application/json"}
+    }).then((res)=> res.json());
+    setOrders(newOrders);
+  }
 
+  
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Grid item xs={12}>

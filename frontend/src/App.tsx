@@ -9,6 +9,7 @@ import CustomerMenu from './components/Customer/CustomerMenu';
 import TrackOrder from './components/Customer/TrackOrder';
 import EmployeeDashboard from './components/Employee/EmployeeDashboard';
 import Home from './components/Home/Home';
+import Login from './components/Home/Login';
 import ResponsiveAppBar from './components/Home/ResponsiveAppBar';
 import theme from "./components/Theme/Theme";
 
@@ -23,9 +24,11 @@ function App() {
         <ResponsiveAppBar></ResponsiveAppBar>
         <Routes>
           <Route path="/customer" element={<CustomerMenu />} />
+          <Route path="/login" element={<Login />}/>
           <Route path="/order" element={<TrackOrder />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/employee" element={<EmployeeDashboard />} />
+          <Route path='/login' element={<Login />} />
           <Route path="" element={<Home />} />
         </Routes>
       </ThemeProvider>
