@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -8,6 +9,7 @@ import {
   Container,
   CssBaseline,
   Grid,
+  Snackbar,
   Typography
 } from '@mui/material';
 import React, { useEffect } from 'react';
@@ -30,7 +32,19 @@ function Copyright() {
 const items : Array<DonutInterface> = [];
 
 function Menu() {
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+  
+    setOpen(false);
+  };
+  
   const [donuts, setDonuts] = React.useState<Array<DonutInterface>>([]);
+  const [open, setOpen] = React.useState(false);
+  const [snackMessage, setSnackMessage] = React.useState("");
+
   
   async function fetchDonuts() {
     try {
@@ -47,6 +61,8 @@ function Menu() {
 
   function handleAddItem(item) {
     items.push(item);
+    setSnackMessage(`Added ${item.flavor} donut to cart!`);
+    setOpen(true);
   }
     
   return (
@@ -69,7 +85,7 @@ function Menu() {
                   alt="donut"
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
+                  <Typography id={`${donut.flavor}Card`} gutterBottom variant="h5" component="h2">
                     {donut.flavor}
                   </Typography>
                   <Typography>$ {donut.price}</Typography>
@@ -79,9 +95,15 @@ function Menu() {
                     color="secondary"
                     onClick={() => handleAddItem(donut)}
                     size="small"
+                    id={`${donut.flavor}AddBtn`}
                   >
                     Add to Cart
                   </Button>
+                  <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert id="addedAlert" onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    {snackMessage}
+                    </Alert>
+                  </Snackbar>
                 </CardActions>
               </Card>
             </Grid>
@@ -89,6 +111,7 @@ function Menu() {
         </Grid>
       </Container>
       <Button
+        id="continueToCart"
         color="secondary"
         component={Link}
         to={'/cart'}>

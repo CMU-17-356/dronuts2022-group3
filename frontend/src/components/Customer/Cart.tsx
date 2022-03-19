@@ -122,9 +122,10 @@ function DeliveryOptions(){
   }
 
 function PaymentDetails(){
+  const [invoiceSubtotal, invoiceTaxes, invoiceTotal] = calculatePaymentDetails(items);
   return(
     <TableContainer component={Paper}>
-    <Table aria-label="spanning table">
+    <Table aria-label="spanning table"  id="payment-details-table">
     <Typography gutterBottom variant="h6" sx={{margin: 2}}>
                 Payment Details
             </Typography>
