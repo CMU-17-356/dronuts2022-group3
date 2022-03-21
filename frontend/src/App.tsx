@@ -1,8 +1,6 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import {
-  BrowserRouter as Router, Route, Routes
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Cart from './components/Customer/Cart';
 import CustomerMenu from './components/Customer/CustomerMenu';
@@ -10,12 +8,16 @@ import TrackOrder from './components/Customer/TrackOrder';
 import EmployeeDashboard from './components/Employee/EmployeeDashboard';
 import Home from './components/Home/Home';
 import ResponsiveAppBar from './components/Home/ResponsiveAppBar';
-import theme from "./components/Theme/Theme";
-
-
-
+import theme from './components/Theme/Theme';
+import DonutList from './components/Dronut/DonutList';
+import Donut from './components/Dronut/Donut';
+import Orders from './components/Employee/Orders';
 
 function App() {
+  const donutOnClick = (donut) => {
+    console.log('donut clicked' + donut);
+  };
+
   return (
     <Router>
       <ThemeProvider theme={theme}>
@@ -25,12 +27,20 @@ function App() {
           <Route path="/customer" element={<CustomerMenu />} />
           <Route path="/order" element={<TrackOrder />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/employee" element={<EmployeeDashboard />} />
+          <Route path="/employee" element={<EmployeeDashboard />}>
+            <Route path="dashboard" element={<Orders />} />
+            <Route path="orders" element={<Orders />} />
+            <Route
+              path="donuts"
+              element={<DonutList onClick={donutOnClick} text="View" />}
+            >
+              <Route path=":id" element={<Donut />}></Route>
+            </Route>
+          </Route>
           <Route path="" element={<Home />} />
         </Routes>
       </ThemeProvider>
     </Router>
-
   );
 }
 

@@ -3,3 +3,7 @@ export default interface DonutInterface {
   flavor: string;
   price: number;
 }
+
+export default function Donut() {
+  return <></>;
+}
