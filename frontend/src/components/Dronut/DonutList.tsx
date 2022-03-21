@@ -1,17 +1,13 @@
 import {
-  Box,
   Button,
   Card,
   CardActions,
   CardContent,
   CardMedia,
-  Container,
-  CssBaseline,
   Grid,
   Typography
 } from '@mui/material';
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import DonutInterface from '../Dronut/Donut';
 import { donutImages } from '../Dronut/donutImages';
 

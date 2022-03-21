@@ -23,8 +23,6 @@ import DroneInterface from '../Drone/Drone';
 import DonutInterface from '../Dronut/Donut';
 import { donutImages } from '../Dronut/donutImages';
 
-// TODO (rsantoni) : Improve interface with all relevant details
-
 export interface Order {
   _id: number;
   first_name: string;
@@ -33,10 +31,6 @@ export interface Order {
   items: Array<DonutInterface>;
   price: number;
 }
-
-// function OrderScroll(props){
-//   /*TODO Funmbi --> implement order scrollable functionality */
-// }
 
 export default function Orders() {
   const [orders, setOrders] = React.useState<Array<Order>>([]);
