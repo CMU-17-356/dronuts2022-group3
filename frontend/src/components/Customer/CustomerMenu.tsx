@@ -1,19 +1,8 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Container,
-  CssBaseline,
-  Grid,
-  Typography
-} from '@mui/material';
-import React, { useEffect } from 'react';
+import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import DonutInterface from '../Dronut/Donut';
-import { donutImages } from '../Dronut/donutImages';
+import DonutList from '../Dronut/DonutList';
 
 function Copyright() {
   return (
@@ -27,72 +16,21 @@ function Copyright() {
     </Typography>
   );
 }
-const items : Array<DonutInterface> = [];
+const items: Array<DonutInterface> = [];
 
 function Menu() {
-  const [donuts, setDonuts] = React.useState<Array<DonutInterface>>([]);
-  
-  async function fetchDonuts() {
-    try {
-      const response = await fetch('/donuts').then((res) => res.json());
-      setDonuts(response);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  useEffect(() => {
-    fetchDonuts();
-  }, []);
-
   function handleAddItem(item) {
     items.push(item);
   }
-    
+
   return (
     <main>
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
-        <Grid container spacing={4}>
-          {donuts.map((donut) => (
-            <Grid item key={donut._id} xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image={donutImages[donut.flavor]} // require image
-                  alt="donut"
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {donut.flavor}
-                  </Typography>
-                  <Typography>$ {donut.price}</Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    color="secondary"
-                    onClick={() => handleAddItem(donut)}
-                    size="small"
-                  >
-                    Add to Cart
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+        <DonutList onClick={handleAddItem} text="Add to cart" />
       </Container>
-      <Button
-        color="secondary"
-        component={Link}
-        to={'/cart'}>
-          Continue to Cart
+      <Button color="secondary" component={Link} to={'/cart'}>
+        Continue to Cart
       </Button>
     </main>
   );
@@ -121,4 +59,4 @@ export default function CustomerMenu() {
   );
 }
 
-export {items}
+export { items };
