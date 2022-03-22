@@ -9,7 +9,9 @@ import { Donut } from './components/Dronut/Donut';
 import Donuts from './components/Dronut/Donuts';
 import DonutList from './components/Dronut/DonutList';
 import EmployeeDashboard from './components/Employee/EmployeeDashboard';
-import Orders from './components/Employee/Orders';
+import Orders from './components/Order/Orders';
+import OrderList from './components/Order/OrderList';
+import Order from './components/Order/Order';
 import Home from './components/Home/Home';
 import ResponsiveAppBar from './components/Home/ResponsiveAppBar';
 import theme from './components/Theme/Theme';
@@ -31,7 +33,10 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/employee" element={<EmployeeDashboard />}>
           <Route path="dashboard" element={<Orders />} />
-          <Route path="orders" element={<Orders />} />
+          <Route path="orders" element={<Orders />}>
+            <Route path="" element={<OrderList />} />
+            <Route path=":id" element={<Order />} />
+          </Route>
           <Route path="donuts" element={<Donuts />}>
             <Route path=":id" element={<Donut />} />
             <Route

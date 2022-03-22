@@ -19,34 +19,17 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import React, { useEffect } from 'react';
-import DroneInterface from '../Drone/Drone';
-import DonutInterface from '../Dronut/Donut';
+import { Link } from 'react-router-dom';
 import { donutImages } from '../Dronut/donutImages';
+import { OrderInterface } from './Order';
 
-export interface Order {
-  _id: number;
-  first_name: string;
-  last_name: string;
-  drone: DroneInterface;
-  items: Array<DonutInterface>;
-  price: number;
-}
-
-export default function Orders() {
-  const [orders, setOrders] = React.useState<Array<Order>>([]);
+export default function OrderList() {
+  const [orders, setOrders] = React.useState<Array<OrderInterface>>([]);
   const [checked, setChecked] = React.useState({});
 
   function handleCompleteOrder(id) {
     console.log(id);
     const newOrders = orders.filter((item) => item._id !== id);
-    // const oldOrder = orders.filter((item) => item.id == id);
-    // const orderlength = oldOrder[0].items.length;
-    // console.log(oldOrder[0].items);
-    // for(var i = 0; i < orderlength; i++ ){
-    //   console.log("donut state");
-    //   const donut = oldOrder[0].items[i];
-    //   console.log(donut.checked);
-    // }
     setOrders(newOrders);
   }
 
@@ -61,7 +44,7 @@ export default function Orders() {
   async function fetchOrders() {
     try {
       const response = await fetch('/orders').then((res) => res.json());
-      const orders: Order[] = [];
+      const orders: OrderInterface[] = [];
 
       await Promise.all(
         response.map(async (order) => {
@@ -70,7 +53,7 @@ export default function Orders() {
           ).then((res) => res.json());
           console.log('items: ');
           console.log(order.items);
-          let new_order: Order = {
+          let new_order: OrderInterface = {
             _id: order._id,
             first_name: customerResponse.first_name,
             last_name: customerResponse.last_name,
@@ -169,6 +152,16 @@ export default function Orders() {
                     </Grid>
                   </CardContent>
                   <CardActions>
+                    <Grid container>
+                      <Button
+                        color="secondary"
+                        variant="outlined"
+                        component={Link}
+                        to={row._id.toString()}
+                      >
+                        View Order
+                      </Button>
+                    </Grid>
                     <Grid container justifyContent="flex-end">
                       <Button
                         color="secondary"
