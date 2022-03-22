@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import DonutInterface from '../Dronut/Donut';
 import DonutList from '../Dronut/DonutList';
+import { loggedUser } from '../Home/Login';
 
 function Copyright() {
   return (
@@ -16,11 +17,23 @@ function Copyright() {
     </Typography>
   );
 }
-const items: Array<DonutInterface> = [];
+export interface UserCart {
+  customerId : string, 
+  items: Array<DonutInterface>
+}
+const customerItems: UserCart = {customerId: "", items: []};
+const donuts: Array<DonutInterface> = [];
 
 function Menu() {
   function handleAddItem(item) {
-    items.push(item);
+    donuts.push(item);
+  }
+  function handleCustomerCart(){
+    console.log(loggedUser);
+    customerItems.customerId = loggedUser[0]._id;
+    customerItems.items=donuts;
+    //customerItems.push(customerCart);
+    console.log(customerItems)
   }
 
   return (
@@ -29,7 +42,7 @@ function Menu() {
         {/* End hero unit */}
         <DonutList onClick={handleAddItem} text="Add to cart" />
       </Container>
-      <Button color="secondary" component={Link} to={'/cart'}>
+      <Button color="secondary" component={Link} to={'/cart'} onClick={handleCustomerCart}>
         Continue to Cart
       </Button>
     </main>
@@ -59,4 +72,4 @@ export default function CustomerMenu() {
   );
 }
 
-export { items };
+export { customerItems }
