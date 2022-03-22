@@ -1,4 +1,5 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
@@ -7,9 +8,8 @@ import List from '@mui/material/List';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
+import { Outlet } from 'react-router-dom';
 import { mainListItems } from './listItems';
-import Orders from './Orders';
-
 const drawerWidth: number = 240;
 
 const Drawer = styled(MuiDrawer, {
@@ -69,7 +69,10 @@ function DashboardContent() {
         }}
       >
         <Toolbar />
-        <Orders />
+        <Container sx={{ py: 8 }} maxWidth="md">
+          {/* End hero unit */}
+          <Outlet />
+        </Container>
       </Box>
     </Box>
   );

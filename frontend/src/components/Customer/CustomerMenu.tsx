@@ -15,7 +15,7 @@ import {
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DonutInterface from '../Dronut/Donut';
-import { donutImages } from '../Dronut/donutImages';
+import DonutList from '../Dronut/DonutList';
 
 function Copyright() {
   return (
@@ -29,7 +29,7 @@ function Copyright() {
     </Typography>
   );
 }
-const items : Array<DonutInterface> = [];
+const items: Array<DonutInterface> = [];
 
 function Menu() {
 
@@ -64,7 +64,7 @@ function Menu() {
     setSnackMessage(`Added ${item.flavor} donut to cart!`);
     setOpen(true);
   }
-    
+
   return (
     <main>
       <Container sx={{ py: 8 }} maxWidth="md">
@@ -144,4 +144,4 @@ export default function CustomerMenu() {
   );
 }
 
-export {items}
+export { items };
