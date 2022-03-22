@@ -8,25 +8,20 @@ import {
   InputLabel
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Theme } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import { createStyles, makeStyles } from '@mui/styles';
 import React, { useEffect } from 'react';
-import DonutInterface from '../Dronut/Donut';
 import DroneInterface from '../Drone/Drone';
+import DonutInterface from '../Dronut/Donut';
 import { donutImages } from '../Dronut/donutImages';
-
-// TODO (rsantoni) : Improve interface with all relevant details
 
 export interface Order {
   _id: number;
@@ -36,10 +31,6 @@ export interface Order {
   items: Array<DonutInterface>;
   price: number;
 }
-
-// function OrderScroll(props){
-//   /*TODO Funmbi --> implement order scrollable functionality */
-// }
 
 export default function Orders() {
   const [orders, setOrders] = React.useState<Array<Order>>([]);
@@ -103,110 +94,103 @@ export default function Orders() {
   }, []);
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Grid item xs={12}>
-        <Box
-          bgcolor="background"
-          display="flex"
-          sx={{
-            pb: 6
-          }}
-        >
-          <Typography
-            variant="h2"
-            align="center"
-            color="text.primary"
-            paragraph
-          >
-            Recent Orders
-          </Typography>
-        </Box>
-        <React.Fragment>
-          <Table size="medium">
-            <TableBody>
-              {orders.map((row) => (
-                <TableRow key={row._id}>
-                  <Card>
-                    <CardContent>
-                      <Box
-                        bgcolor="info.main"
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          p: 1,
-                          m: 1,
-                          borderRadius: 1
-                        }}
-                      >
-                        <InputLabel>
-                          Order for {row.first_name} {row.last_name}{' '}
-                        </InputLabel>
-                        <InputLabel>Drone Id : {row.drone._id}</InputLabel>
-                      </Box>
-                      <Grid lg={12} md={8} sm={12}>
-                        <List>
-                          {row.items.map((donut) => (
-                            <ListItem>
-                              <ListItemAvatar>
-                                <Avatar
-                                  alt={donut.flavor}
-                                  src={donutImages[donut.flavor]}
-                                />
-                              </ListItemAvatar>
-                              <ListItemText primary={donut.flavor} />
-                              <ListItemText
-                                style={{
-                                  display: 'flex',
-                                  justifyContent: 'flex-end'
-                                }}
-                                primary={'$' + donut.price}
-                              />
-                            </ListItem>
-                          ))}
+    <Grid item xs={12}>
+      <Box
+        bgcolor="background"
+        display="flex"
+        sx={{
+          pb: 6
+        }}
+      >
+        <Typography variant="h2" align="center" color="text.primary" paragraph>
+          Recent Orders
+        </Typography>
+      </Box>
+      <React.Fragment>
+        <Table size="medium">
+          <TableBody>
+            {orders.map((row) => (
+              <TableRow key={row._id}>
+                <Card>
+                  <CardContent>
+                    <Box
+                      bgcolor="info.main"
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        p: 1,
+                        m: 1,
+                        borderRadius: 1
+                      }}
+                    >
+                      <InputLabel>
+                        Order for {row.first_name} {row.last_name}{' '}
+                      </InputLabel>
+                      <InputLabel>Drone Id : {row.drone._id}</InputLabel>
+                    </Box>
+                    <Grid lg={12} md={8} sm={12}>
+                      <List>
+                        {row.items.map((donut) => (
                           <ListItem>
-                            <ListItemIcon></ListItemIcon>
-                            <ListItemText primary="Total Price" />
+                            <ListItemAvatar>
+                              <Avatar
+                                alt={donut.flavor}
+                                src={donutImages[donut.flavor]}
+                              />
+                            </ListItemAvatar>
+                            <ListItemText primary={donut.flavor} />
                             <ListItemText
                               style={{
                                 display: 'flex',
                                 justifyContent: 'flex-end'
                               }}
-                              primary={
-                                '$' +
-                                row.items.reduce(
-                                  (sum, donut) => sum + donut.price,
-                                  0
-                                )
-                              }
+                              primary={'$' + donut.price}
                             />
                           </ListItem>
-                        </List>
-                      </Grid>
-                    </CardContent>
-                    <CardActions>
-                      <Grid container justifyContent="flex-end">
-                        <Button
-                          color="secondary"
-                          sx={{
-                            position: 'relative',
-                            justifyContent: 'flex-end',
-                            alignItems: 'flex-end'
-                          }}
-                          variant="contained"
-                          endIcon={<SendIcon />}
-                          onClick={() => handleCompleteOrder(row._id)}
-                        >
-                          Order Packed
-                        </Button>
-                      </Grid>
-                    </CardActions>
-                  </Card>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </React.Fragment>
-      </Grid>
-    </Container>
+                        ))}
+                        <ListItem>
+                          <ListItemIcon></ListItemIcon>
+                          <ListItemText primary="Total Price" />
+                          <ListItemText
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'flex-end'
+                            }}
+                            primary={
+                              '$' +
+                              row.items.reduce(
+                                (sum, donut) => sum + donut.price,
+                                0
+                              )
+                            }
+                          />
+                        </ListItem>
+                      </List>
+                    </Grid>
+                  </CardContent>
+                  <CardActions>
+                    <Grid container justifyContent="flex-end">
+                      <Button
+                        color="secondary"
+                        sx={{
+                          position: 'relative',
+                          justifyContent: 'flex-end',
+                          alignItems: 'flex-end'
+                        }}
+                        variant="contained"
+                        endIcon={<SendIcon />}
+                        onClick={() => handleCompleteOrder(row._id)}
+                      >
+                        Order Packed
+                      </Button>
+                    </Grid>
+                  </CardActions>
+                </Card>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </React.Fragment>
+    </Grid>
   );
 }
