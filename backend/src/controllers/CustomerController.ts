@@ -30,6 +30,7 @@ export default class CustomersController {
           apiErrorHandler(err, req, res, "Find customer by id failed.");
         } else { 
           res.json(customer);
+          //console.log(res);
         }
       });
 
@@ -40,12 +41,11 @@ export default class CustomersController {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      
-      new CustomerModel(req.body).save(function (err) {
+      new CustomerModel(req, res).save(function (err, result) {
         if (err) {
           apiErrorHandler(err, req, res, "Create customer failed.");
         } else {
-          res.sendStatus(201);
+          res.status(201).json(result);
         }
       });
 

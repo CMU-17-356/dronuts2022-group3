@@ -154,6 +154,8 @@ export default function Landing() {
             spacing={2}
             justifyContent="center"
           >
+            <Button component ={Link} to={'/login'} variant="contained">Login</Button>
+            <Button component ={Link} to={'/register'} variant="contained">Sign Up</Button>
             <Button component={Link} to={'/customer'} variant="contained">
               Order Now
             </Button>

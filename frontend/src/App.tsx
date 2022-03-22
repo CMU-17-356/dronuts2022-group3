@@ -6,6 +6,7 @@ import {
 import './App.css';
 import Cart from './components/Customer/Cart';
 import CustomerMenu from './components/Customer/CustomerMenu';
+import { CustomerSignUp } from './components/Customer/CustomerSignUp';
 import TrackOrder from './components/Customer/TrackOrder';
 import EmployeeDashboard from './components/Employee/EmployeeDashboard';
 import Home from './components/Home/Home';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/employee" element={<EmployeeDashboard />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<CustomerSignUp />}/>
           <Route path="" element={<Home />} />
         </Routes>
       </ThemeProvider>

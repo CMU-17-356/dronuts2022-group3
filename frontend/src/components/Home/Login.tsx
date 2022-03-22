@@ -17,6 +17,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import DronutIcon from '../../assets/dronut.png'
 import { Label } from '@mui/icons-material';
+import Alert from '@mui/material/Alert';
 
 
 const itemData = [
@@ -129,6 +130,10 @@ const itemData = [
       title: 'Chocolate Kreme'
     }
   ];
+
+function ErrorAlert(props) {
+    return <Alert elevation={6} variant="filled" {...props} />;
+  }
 function Copyright() {
     return (
       <Typography variant="body2" color="text.secondary" align="center">
@@ -143,24 +148,100 @@ function Copyright() {
   }
 const theme = createTheme();
 
-export default function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-  async function fetchCustomer(){
-      try{
-          const response = await fetch('/customers').then((res) => res.json());
-      }
+export interface customerInfo {
+  _id: number, 
+  email: string, 
+  password: string
+}
 
-      catch(e){
-          console.log(e);
-      }
+export default function Login() {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState("");
+
+  const handleSubmit=(event) =>{
+    // if (email === "" || password === "") {
+    //   setError("Fields are required");
+    //   return;
+    // }
+    console.log(email);
+    console.log(password)
+    //LoginCustomer();
+  };
+  async function LoginCustomer() {
+    try{
+      const response = await fetch('/customers').then((res) => res.json());
+      console.log("response", response);
+      window.alert("get here");
+    }catch (e){
+      console.log(e)
+    }
   }
+//   const [customers, setCustomers] = React.useState<Array<customerInfo>>([]);
+//   // async function fetchCustomer(){
+//   //   try{
+//   //       const response = await fetch('/customers').then((res) => res.json());
+//   //       const customers: customerInfo[]= [];
+//   //       await Promise.all(
+//   //         response.map(async (customer) =>{
+//   //           let new_customer: customerInfo = {
+//   //             _id: customer._id, 
+//   //             email: customer.email, 
+//   //             password: customer.password
+//   //           };
+//   //           customers.push(new_customer);
+
+//   //         })
+//   //       );
+//   //       setCustomers(customers);
+//   //       console.log("get all customers", customers);
+        
+        
+//   //   }
+
+//   //   catch(e){
+//   //       console.log(e);
+//  //   }
+
+//   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+//     event.preventDefault();
+//     const data = new FormData(event.currentTarget);
+//     console.log({
+//       email: data.get('email'),
+//       password: data.get('password'),
+//     });
+//     const response = fetch('/customers').then((res) => res.json());
+//     console.log(response)
+//     const customers: customerInfo[]= [];
+//       // response.map(async (customer) =>{
+//       //     let new_customer: customerInfo = {
+//       //       _id: customer._id, 
+//       //       email: customer.email, 
+//       //       password: customer.password
+//       //     };
+//       //     customers.push(new_customer);
+
+//       //   })
+//       // setCustomers(customers);
+//       // console.log("get all customers", customers);
+      
+      
+//   }
+
+ 
+//     //fetchCustomer();
+//     // console.log("customers: ", customers);
+//     // customers.map((customer)=>{
+//     //   console.log("email: ", customer.email);
+//     //   console.log("password: ", customer.password);
+//     //   if (customer.email == data.get('email') && customer.password == data.get('password')){
+//     //     Promise.reject(false);
+//     //     console.log("Login Successful");
+//     //   }
+//     // })
+//     // console.log("Login Failed");
+  
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -201,7 +282,7 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate  sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -211,6 +292,7 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={e=>setEmail(e.target.value)}
               />
               <TextField
                 margin="normal"
@@ -221,6 +303,7 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={e => setPassword(e.target.value)}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -228,8 +311,11 @@ export default function Login() {
               />
               <Button
                 type="submit"
+                // component={Link}
+                // to={'/customer'} 
                 fullWidth
                 variant="contained"
+                onClick={handleSubmit}
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
@@ -242,7 +328,11 @@ export default function Login() {
                 <Link to={{pathname:"#"}}>Don't have an account? Sign Up!</Link>
                 </Grid>
               </Grid>
-              
+              {error && (
+                <ErrorAlert severity="error" onClick={() => setError("Error")}>
+                {error}
+               </ErrorAlert>
+              )}
             </Box>
             
           </Box>
