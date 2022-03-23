@@ -16,8 +16,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import Container from '@mui/material/Container';
 import { createTheme, makeStyles, ThemeProvider } from '@mui/material/styles';
 import DronutIcon from '../../assets/dronut.png'
-import { ElectricScooterOutlined, Label } from '@mui/icons-material';
-import LocationInterface from './Location';
+import ReactSession from 'react-client-session';
 
 
 const itemData = [
@@ -145,7 +144,6 @@ function Copyright() {
 const theme = createTheme();
 
 export interface CustomerInterface {
-    _id: string,
     first_name: string,
     last_name: string,
     email: string,
@@ -155,15 +153,19 @@ export interface CustomerInterface {
     state : string,
     city : string,
     zipcode : string,
-    phone : string
 }
 
+export interface User{
+    _id: string, 
+    email: string, 
+    password: string 
+}
 
+const newUser : User = {_id: "", email: "", password: ""}
 
 export function CustomerSignUp() {
     
     const [customer, setCustomer] = React.useState<CustomerInterface>({
-        _id: "dummy",
         first_name: "error",
         last_name: "error",
         email: "error",
@@ -173,7 +175,6 @@ export function CustomerSignUp() {
         state : "error",
         city : "error",
         zipcode : "error",
-        phone : "error"
     });
 
     const handleChange =
@@ -183,21 +184,18 @@ export function CustomerSignUp() {
     };
 
     async function handleSubmit(){
-        
-        const response = fetch('/customers', {
+        console.log("sign up customer: ", customer);
+        fetch('/customers', {
             method: 'POST',
             body: JSON.stringify(customer),
-            headers: {"Content-Type": "application/json"}
-        }).then((res)=> res.json()).then((data)=> console.log(data._id));
-
-        // const json = (await response).json().then(function(result){
-        //     console.log("result: ",result._id);
-        //     setCustomer({ ...customer, _id: customer._id });
-        //     // console.log("result: ", "/customers/"+result._id);
-        //     // const custResponse = fetch('/customers/'+result._id).then((res) => res.json());
-        //     // console.log("response: ", custResponse);
-        // });
-        // console.log(customer);
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+        });
+        newUser.email = customer.email; 
+        newUser.password = customer.password;
+        console.log(newUser);
 
     }
     
@@ -357,5 +355,5 @@ export function CustomerSignUp() {
     );
 }
 
-// console.log("customer id: ", customerId);
-// export {customerId}
+
+export { newUser }

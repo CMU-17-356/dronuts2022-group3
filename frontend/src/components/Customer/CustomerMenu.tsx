@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import DonutInterface from '../Dronut/Donut';
 import DonutList from '../Dronut/DonutList';
 import { loggedUser } from '../Home/Login';
+import { newUser }from '../Customer/CustomerSignUp';
 
 function Copyright() {
   return (
@@ -24,15 +25,34 @@ export interface UserCart {
 const customerItems: UserCart = {customerId: "", items: []};
 const donuts: Array<DonutInterface> = [];
 
+
 function Menu() {
+  
   function handleAddItem(item) {
+    console.log(item);
+    console.log(donuts);
     donuts.push(item);
+    console.log(donuts);
   }
-  function handleCustomerCart(){
-    console.log(loggedUser);
-    customerItems.customerId = loggedUser[0]._id;
+  async function handleCustomerCart(){
+    console.log("logged User: ",loggedUser);
+
+    if(loggedUser.email === ""){
+      const response = await fetch('/customers').then((res) => res.json());
+      console.log("get response: ", response)
+      await Promise.all(
+        response.map(async (customer)=>{
+          if (customer.email == newUser.email && customer.password == newUser.password){
+              console.log("customer: ", customer);
+              newUser._id = customer._id;
+            }
+          })
+        );
+      customerItems.customerId = newUser._id;
+    }else{
+      customerItems.customerId = loggedUser._id;
+    }
     customerItems.items=donuts;
-    //customerItems.push(customerCart);
     console.log(customerItems)
   }
 

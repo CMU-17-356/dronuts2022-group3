@@ -154,7 +154,7 @@ export interface customerInfo {
   email: string, 
   password: string
 }
-const loggedUser: Array<customerInfo> = [];
+const loggedUser: customerInfo = {_id: "", email: "", password: ""};
 export default function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -178,13 +178,9 @@ export default function Login() {
         response.map(async (customer)=>{
           if (customer.email == user.email && customer.password == user.password){
             console.log("customer: ", customer);
-            let loggedIn: customerInfo = {
-              _id: customer._id,
-              email: customer.email,
-              password: customer.password
-            }
-            loggedUser.push(loggedIn);
-            console.log("logged in");
+            loggedUser._id = customer._id;
+            loggedUser.email = customer.emial;
+            loggedUser.password = customer.password;
             console.log(loggedUser);
           }
         })
