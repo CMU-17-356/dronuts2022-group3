@@ -40,15 +40,15 @@ function App() {
             <Route path="" element={<OrderList />} />
             <Route path=":id" element={<Order />} />
           </Route>
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<CustomerSignUp />}/>
-          <Route path="donuts" element={<Donuts />}>
-            <Route path=":id" element={<Donut />} />
-            <Route
-              path=""
-              element={<DonutList onClick={donutOnClick} text="View" />}
-            />
-          </Route>
+        </Route>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<CustomerSignUp />}/>
+        <Route path="donuts" element={<Donuts />}>
+          <Route path=":id" element={<Donut />} />
+          <Route
+            path=""
+            element={<DonutList onClick={donutOnClick} text="View" />}
+          />
         </Route>
         <Route path="" element={<Home />} />
       </Routes>
