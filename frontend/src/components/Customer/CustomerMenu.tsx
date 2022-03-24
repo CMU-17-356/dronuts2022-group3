@@ -16,6 +16,8 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DonutInterface from '../Dronut/Donut';
 import DonutList from '../Dronut/DonutList';
+import { loggedUser } from '../Home/Login';
+import { newUser }from '../Customer/CustomerSignUp';
 
 function Copyright() {
   return (
@@ -29,7 +31,13 @@ function Copyright() {
     </Typography>
   );
 }
-const items: Array<DonutInterface> = [];
+export interface UserCart {
+  customerId : string, 
+  items: Array<DonutInterface>
+}
+const customerItems: UserCart = {customerId: "", items: []};
+const donuts: Array<DonutInterface> = [];
+
 
 function Menu() {
 
@@ -61,61 +69,48 @@ function Menu() {
 
   function handleAddItem(item) {
     items.push(item);
-    setSnackMessage(`Added ${item.flavor} donut to cart!`);
-    setOpen(true);
+    console.log(item);
+    console.log(donuts);
+    donuts.push(item);
+    console.log(donuts);
+  }
+
+  async function handleCustomerCart(){
+    console.log("logged User: ",loggedUser);
+
+    if(loggedUser.email === ""){
+      const response = await fetch('/customers').then((res) => res.json());
+      console.log("get response: ", response)
+      await Promise.all(
+        response.map(async (customer)=>{
+          if (customer.email == newUser.email && customer.password == newUser.password){
+              console.log("customer: ", customer);
+              newUser._id = customer._id;
+            }
+          })
+        );
+      customerItems.customerId = newUser._id;
+    }else{
+      customerItems.customerId = loggedUser._id;
+    }
+    customerItems.items=donuts;
+    console.log(customerItems)
   }
 
   return (
     <main>
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
-        <Grid container spacing={4}>
-          {donuts.map((donut) => (
-            <Grid item key={donut._id} xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image={donutImages[donut.flavor]} // require image
-                  alt="donut"
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography id={`${donut.flavor}Card`} gutterBottom variant="h5" component="h2">
-                    {donut.flavor}
-                  </Typography>
-                  <Typography>$ {donut.price}</Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    color="secondary"
-                    onClick={() => handleAddItem(donut)}
-                    size="small"
-                    id={`${donut.flavor}AddBtn`}
-                  >
-                    Add to Cart
-                  </Button>
-                  <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert id="addedAlert" onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                    {snackMessage}
-                    </Alert>
-                  </Snackbar>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+        <DonutList onClick={handleAddItem} text="Add to cart" />
       </Container>
-      <Button
-        id="continueToCart"
-        color="secondary"
-        component={Link}
-        to={'/cart'}>
-          Continue to Cart
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert id="addedAlert" onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+        {snackMessage}
+        </Alert>
+      </Snackbar>
+      <Button id="continueToCart"
+        color="secondary" component={Link} to={'/cart'} onClick={handleCustomerCart}>
+        Continue to Cart
       </Button>
     </main>
   );
@@ -144,4 +139,4 @@ export default function CustomerMenu() {
   );
 }
 
-export { items };
+export { customerItems }

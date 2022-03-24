@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import DronutIcon from '../../assets/dronut.png'
 import { Label } from '@mui/icons-material';
 import Alert from '@mui/material/Alert';
+import { useEffect } from 'react';
 
 
 const itemData = [
@@ -149,98 +150,45 @@ function Copyright() {
 const theme = createTheme();
 
 export interface customerInfo {
-  _id: number, 
+  _id: string, 
   email: string, 
   password: string
 }
-
+const loggedUser: customerInfo = {_id: "", email: "", password: ""};
 export default function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState("");
+  const [user, setUser] = React.useState<customerInfo>({
+    _id: " ",
+    email: " ",
+    password: " "
+  })
 
-  const handleSubmit=(event) =>{
-    // if (email === "" || password === "") {
-    //   setError("Fields are required");
-    //   return;
-    // }
-    console.log(email);
-    console.log(password)
-    //LoginCustomer();
-  };
-  async function LoginCustomer() {
-    try{
-      const response = await fetch('/customers').then((res) => res.json());
-      console.log("response", response);
-      window.alert("get here");
-    }catch (e){
-      console.log(e)
-    }
+  const handleChange =
+    (prop: keyof customerInfo) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setUser({ ...user, [prop]: event.target.value });
+    };
+
+
+  async function handleSubmit(){
+  try{
+    const response = await fetch('/customers').then((res) => res.json());
+    await Promise.all(
+        response.map(async (customer)=>{
+          if (customer.email == user.email && customer.password == user.password){
+            console.log("customer: ", customer);
+            loggedUser._id = customer._id;
+            loggedUser.email = customer.emial;
+            loggedUser.password = customer.password;
+            console.log(loggedUser);
+          }
+        })
+      )}
+      catch(e){
+        console.log(e);
+      }
   }
-//   const [customers, setCustomers] = React.useState<Array<customerInfo>>([]);
-//   // async function fetchCustomer(){
-//   //   try{
-//   //       const response = await fetch('/customers').then((res) => res.json());
-//   //       const customers: customerInfo[]= [];
-//   //       await Promise.all(
-//   //         response.map(async (customer) =>{
-//   //           let new_customer: customerInfo = {
-//   //             _id: customer._id, 
-//   //             email: customer.email, 
-//   //             password: customer.password
-//   //           };
-//   //           customers.push(new_customer);
-
-//   //         })
-//   //       );
-//   //       setCustomers(customers);
-//   //       console.log("get all customers", customers);
-        
-        
-//   //   }
-
-//   //   catch(e){
-//   //       console.log(e);
-//  //   }
-
-//   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
-//     const data = new FormData(event.currentTarget);
-//     console.log({
-//       email: data.get('email'),
-//       password: data.get('password'),
-//     });
-//     const response = fetch('/customers').then((res) => res.json());
-//     console.log(response)
-//     const customers: customerInfo[]= [];
-//       // response.map(async (customer) =>{
-//       //     let new_customer: customerInfo = {
-//       //       _id: customer._id, 
-//       //       email: customer.email, 
-//       //       password: customer.password
-//       //     };
-//       //     customers.push(new_customer);
-
-//       //   })
-//       // setCustomers(customers);
-//       // console.log("get all customers", customers);
-      
-      
-//   }
-
- 
-//     //fetchCustomer();
-//     // console.log("customers: ", customers);
-//     // customers.map((customer)=>{
-//     //   console.log("email: ", customer.email);
-//     //   console.log("password: ", customer.password);
-//     //   if (customer.email == data.get('email') && customer.password == data.get('password')){
-//     //     Promise.reject(false);
-//     //     console.log("Login Successful");
-//     //   }
-//     // })
-//     // console.log("Login Failed");
-  
 
 
   return (
@@ -292,7 +240,7 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={e=>setEmail(e.target.value)}
+                onChange={handleChange("email")}
               />
               <TextField
                 margin="normal"
@@ -303,7 +251,7 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={e => setPassword(e.target.value)}
+                onChange={handleChange("password")}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -311,11 +259,11 @@ export default function Login() {
               />
               <Button
                 type="submit"
-                // component={Link}
-                // to={'/customer'} 
+                component={Link}
+                to={'/customer'} 
                 fullWidth
                 variant="contained"
-                onClick={handleSubmit}
+                onClick={() =>handleSubmit()}
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
@@ -328,11 +276,6 @@ export default function Login() {
                 <Link to={{pathname:"#"}}>Don't have an account? Sign Up!</Link>
                 </Grid>
               </Grid>
-              {error && (
-                <ErrorAlert severity="error" onClick={() => setError("Error")}>
-                {error}
-               </ErrorAlert>
-              )}
             </Box>
             
           </Box>
@@ -352,3 +295,5 @@ export default function Login() {
     </ThemeProvider>
   );
 }
+
+export { loggedUser }
