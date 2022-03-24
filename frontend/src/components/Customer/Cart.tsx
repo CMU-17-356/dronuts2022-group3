@@ -129,7 +129,7 @@ function DeliveryOptions(){
   }
 
 function PaymentDetails(){
-  const [invoiceSubtotal, invoiceTaxes, invoiceTotal] = calculatePaymentDetails(items);
+  // const [invoiceSubtotal, invoiceTaxes, invoiceTotal] = calculatePaymentDetails(customerItems.items);
   return(
     <TableContainer component={Paper}>
     <Table aria-label="spanning table"  id="payment-details-table">

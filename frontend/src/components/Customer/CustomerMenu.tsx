@@ -49,30 +49,16 @@ function Menu() {
     setOpen(false);
   };
   
-  const [donuts, setDonuts] = React.useState<Array<DonutInterface>>([]);
+  // const [donuts, setDonuts] = React.useState<Array<DonutInterface>>([]);
   const [open, setOpen] = React.useState(false);
   const [snackMessage, setSnackMessage] = React.useState("");
 
-  
-  async function fetchDonuts() {
-    try {
-      const response = await fetch('/donuts').then((res) => res.json());
-      setDonuts(response);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  useEffect(() => {
-    fetchDonuts();
-  }, []);
-
   function handleAddItem(item) {
-    items.push(item);
     console.log(item);
-    console.log(donuts);
     donuts.push(item);
     console.log(donuts);
+    setSnackMessage(`Added ${item.flavor} donut to cart!`);
+    setOpen(true);
   }
 
   async function handleCustomerCart(){
