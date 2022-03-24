@@ -7,7 +7,8 @@ import {Box, Table, TableBody, TableCell, TableContainer, TableHead,
 import { Link } from 'react-router-dom';
 import DonutInterface from '../Dronut/Donut';
 import DroneInterface from '../Drone/Drone';
-import {items} from '../Customer/CustomerMenu';
+import { customerItems } from '../Customer/CustomerMenu';
+
 
 export interface Order {
   _id: number;
@@ -18,21 +19,25 @@ export interface Order {
   price: number;
 }
 
+
+
 async function handlePlaceOrder() {  
+  const response = await fetch('/customers/'+customerItems.customerId).then((res) => res.json());
+
   const newOrder = {
-    "customer": "621ebac6b299fa068acf30fe", 
+    "customer": customerItems.customerId, 
     "drone": {"battery_life": 10, "critical": false}, 
     "location": {
-      "street_address": "5318 beeler street",
-      "city": "Pittsburgh",
-      "state": "PA",
-      "zipcode": "15217"
+      "street_address": response.addresses[0].street_address,
+      "city": response.addresses[0].city,
+      "state": response.addresses[0].state,
+      "zipcode": response.addresses[0].zipcode
   }, 
-    "items": items,
+    "items": customerItems.items,
     "total": invoiceTotal, 
     "status": "Preparing" 
   };
-  console.log(newOrder);
+  console.log("newOrder: ",newOrder);
 
   fetch('/orders', {
     method: 'POST',
@@ -50,15 +55,17 @@ function ccyFormat(num: number) {
 }
 
 function subtotal(items: readonly DonutInterface[]) {
+  console.log("items: ", items);
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
 
 const TAX_RATE = 0.07;
-const invoiceSubtotal = subtotal(items);
+const invoiceSubtotal = subtotal(customerItems.items);
 const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 function OrderedItems() {
+  console.log(customerItems);
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -71,7 +78,7 @@ function OrderedItems() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item) => (
+          {customerItems.items.map((item) => (
             <TableRow
               key={item._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

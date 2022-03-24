@@ -3,6 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import DonutInterface from '../Dronut/Donut';
 import DonutList from '../Dronut/DonutList';
+import { loggedUser } from '../Home/Login';
+import { newUser }from '../Customer/CustomerSignUp';
 
 function Copyright() {
   return (
@@ -16,11 +18,42 @@ function Copyright() {
     </Typography>
   );
 }
-const items: Array<DonutInterface> = [];
+export interface UserCart {
+  customerId : string, 
+  items: Array<DonutInterface>
+}
+const customerItems: UserCart = {customerId: "", items: []};
+const donuts: Array<DonutInterface> = [];
+
 
 function Menu() {
+  
   function handleAddItem(item) {
-    items.push(item);
+    console.log(item);
+    console.log(donuts);
+    donuts.push(item);
+    console.log(donuts);
+  }
+  async function handleCustomerCart(){
+    console.log("logged User: ",loggedUser);
+
+    if(loggedUser.email === ""){
+      const response = await fetch('/customers').then((res) => res.json());
+      console.log("get response: ", response)
+      await Promise.all(
+        response.map(async (customer)=>{
+          if (customer.email == newUser.email && customer.password == newUser.password){
+              console.log("customer: ", customer);
+              newUser._id = customer._id;
+            }
+          })
+        );
+      customerItems.customerId = newUser._id;
+    }else{
+      customerItems.customerId = loggedUser._id;
+    }
+    customerItems.items=donuts;
+    console.log(customerItems)
   }
 
   return (
@@ -29,7 +62,7 @@ function Menu() {
         {/* End hero unit */}
         <DonutList onClick={handleAddItem} text="Add to cart" />
       </Container>
-      <Button color="secondary" component={Link} to={'/cart'}>
+      <Button color="secondary" component={Link} to={'/cart'} onClick={handleCustomerCart}>
         Continue to Cart
       </Button>
     </main>
@@ -59,4 +92,4 @@ export default function CustomerMenu() {
   );
 }
 
-export { items };
+export { customerItems }

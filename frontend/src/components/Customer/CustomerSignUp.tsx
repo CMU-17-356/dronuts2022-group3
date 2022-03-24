@@ -16,8 +16,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import Container from '@mui/material/Container';
 import { createTheme, makeStyles, ThemeProvider } from '@mui/material/styles';
 import DronutIcon from '../../assets/dronut.png'
-import { ElectricScooterOutlined, Label } from '@mui/icons-material';
-import LocationInterface from './Location';
+import ReactSession from 'react-client-session';
 
 
 const itemData = [
@@ -144,57 +143,59 @@ function Copyright() {
   }
 const theme = createTheme();
 
-export interface newCustomer {
+export interface CustomerInterface {
     first_name: string,
     last_name: string,
     email: string,
     phone_number: string, 
     password: string,
-    address: Array<LocationInterface>
+    street: string,
+    state : string,
+    city : string,
+    zipcode : string,
 }
 
+export interface User{
+    _id: string, 
+    email: string, 
+    password: string 
+}
 
+const newUser : User = {_id: "", email: "", password: ""}
 
 export function CustomerSignUp() {
     
-    const [customerId, setCustomerId] = React.useState(0);
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [firstName, setFirstName] = React.useState("");
-    const [lastname, setLastName] = React.useState("");
-    const [street, setStreet] = React.useState("");
-    const [state, setState] = React.useState("");
-    const [city, setCity] = React.useState("");
-    const [zipcode, setZipcode] = React.useState("");
-    const [phone, setPhoneNumber] = React.useState("");
+    const [customer, setCustomer] = React.useState<CustomerInterface>({
+        first_name: "error",
+        last_name: "error",
+        email: "error",
+        phone_number: "error", 
+        password: "error",
+        street: "error",
+        state : "error",
+        city : "error",
+        zipcode : "error",
+    });
+
+    const handleChange =
+    (prop: keyof CustomerInterface) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setCustomer({ ...customer, [prop]: event.target.value });
+    };
 
     async function handleSubmit(){
-        
-        const customer = {
-            "first_name": firstName,
-            "last_name": lastname,
-            "email": email,
-            "password": password,
-            "phone_number": phone,
-            "addresses": {
-                "street_address": street,
-                "city": city,
-                "state": state,
-                "zipcode": zipcode,
-            }
-        };
-        const response = fetch('/customers', {
+        console.log("sign up customer: ", customer);
+        fetch('/customers', {
             method: 'POST',
             body: JSON.stringify(customer),
-            headers: {"Content-Type": "application/json"}
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
         });
-
-        const json = (await response).json().then(function(result){
-            console.log("result: ",result._id);
-            const { customerId} =  result._id;
-            setCustomerId(customerId);
-        });
-        console.log(customerId);
+        newUser.email = customer.email; 
+        newUser.password = customer.password;
+        console.log(newUser);
 
     }
     
@@ -232,7 +233,7 @@ export function CustomerSignUp() {
                     fullWidth
                     id='firstName'
                     label='First Name'
-                    onChange={e=>setFirstName(e.target.value)}/>
+                    onChange={handleChange('first_name')}/>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField 
@@ -242,7 +243,7 @@ export function CustomerSignUp() {
                     fullWidth
                     id='LastName'
                     label='Last Name'
-                    onChange={e=>setLastName(e.target.value)}
+                    onChange={handleChange('last_name')}
                     />
                   </Grid>
                   <Grid item xs={12} >
@@ -254,7 +255,7 @@ export function CustomerSignUp() {
                     type="password"
                     id='password'
                     label='Password'
-                    onChange={e=>setPassword(e.target.value)}
+                    onChange={handleChange('password')}
                     />
                   </Grid>
                   <Grid item xs={12} >
@@ -265,7 +266,7 @@ export function CustomerSignUp() {
                     fullWidth
                     id='email'
                     label='Email'
-                    onChange={e=>setEmail(e.target.value)}
+                    onChange={handleChange('email')}
                     />
                   </Grid>
                   <Grid item xs={12} >
@@ -276,7 +277,7 @@ export function CustomerSignUp() {
                     fullWidth
                     id='phone'
                     label='Phone Number'
-                    onChange={e=>setPhoneNumber(e.target.value)}
+                    onChange={handleChange('phone_number')}
                     />
                   </Grid>
                   <Grid item xs={12} >
@@ -287,7 +288,7 @@ export function CustomerSignUp() {
                     fullWidth
                     id='street'
                     label='Street Address'
-                    onChange={e=>setStreet(e.target.value)}
+                    onChange={handleChange('street')}
                     />
                   </Grid>
                   <Grid item xs={12} sm={4} >
@@ -298,7 +299,7 @@ export function CustomerSignUp() {
                     fullWidth
                     id='city'
                     label='City'
-                    onChange={e=>setCity(e.target.value)}
+                    onChange={handleChange('city')}
                     />
                   </Grid>
                   <Grid item xs={12} sm={4} >
@@ -309,7 +310,7 @@ export function CustomerSignUp() {
                     fullWidth
                     id='state'
                     label='State'
-                    onChange={e=>setState(e.target.value)}
+                    onChange={handleChange('state')}
                     />
                   </Grid>
                   <Grid item xs={12} sm={4} >
@@ -320,7 +321,7 @@ export function CustomerSignUp() {
                     fullWidth
                     id='zipcode'
                     label='Zipcode'
-                    onChange={e=>setZipcode(e.target.value)}
+                    onChange={handleChange('zipcode')}
                     />
                   </Grid>
               </Grid>
@@ -354,5 +355,5 @@ export function CustomerSignUp() {
     );
 }
 
-// console.log("customer id: ", customerId);
-// export {customerId}
+
+export { newUser }
