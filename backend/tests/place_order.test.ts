@@ -58,6 +58,13 @@ describe("Placing an order", () => {
           ]);
     });
 
+    it("can continue to track order", async() => {
+      const [response] = await Promise.all([
+          page.click('#continueToTrackOrder'),
+          page.waitForNavigation()
+      ]);
+    });
+
     afterAll(async() => {
         browser.close();
     });

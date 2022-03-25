@@ -49,14 +49,12 @@ function Menu() {
     setOpen(false);
   };
   
-  // const [donuts, setDonuts] = React.useState<Array<DonutInterface>>([]);
   const [open, setOpen] = React.useState(false);
   const [snackMessage, setSnackMessage] = React.useState("");
 
   function handleAddItem(item) {
     console.log(item);
-    donuts.push(item);
-    console.log(donuts);
+    customerItems.items.push(item);
     setSnackMessage(`Added ${item.flavor} donut to cart!`);
     setOpen(true);
   }
@@ -79,7 +77,6 @@ function Menu() {
     }else{
       customerItems.customerId = loggedUser._id;
     }
-    customerItems.items=donuts;
     console.log(customerItems)
   }
 
