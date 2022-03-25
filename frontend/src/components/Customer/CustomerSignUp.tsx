@@ -16,7 +16,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import Container from '@mui/material/Container';
 import { createTheme, makeStyles, ThemeProvider } from '@mui/material/styles';
 import DronutIcon from '../../assets/dronut.png'
-import ReactSession from 'react-client-session';
+// import ReactSession from 'react-client-session';
 
 
 const itemData = [
