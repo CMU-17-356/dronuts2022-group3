@@ -100,7 +100,7 @@ export default function Cart() {
       },
       body: JSON.stringify(newOrder)
     }).then((resp) => {
-      alert('Order submitted!');
+      // alert('Order submitted!');
       let path = '/trackorder/' + id.toString();
       navigate(path);
     }, (err) => {
@@ -127,7 +127,7 @@ function OrderedItems() {
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
       <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table id="order-items-table" sx={{ minWidth: 650 }} >
         <TableHead>
           <TableRow>
             <TableCell>Donut</TableCell>

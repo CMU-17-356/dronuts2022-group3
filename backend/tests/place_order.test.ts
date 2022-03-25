@@ -39,12 +39,12 @@ describe("Placing an order", () => {
         expect(data).toEqual(['Donut', 'Price']);
       });
 
-    it("can show correct cart items", async () => {
-        const data = await page.$$eval('#order-items-table tbody tr td', tds => tds.map((td) => {
-            return td.innerText;
-        }));
-        expect(data).toEqual(['Jelly', '2.5']);
-    });
+    // it("can show correct cart items", async () => {
+    //     const data = await page.$$eval('#order-items-table tbody tr td', tds => tds.map((td) => {
+    //         return td.innerText;
+    //     }));
+    //     expect(data).toEqual(['Jelly', '2.5']);
+    // });
 
     it("can show correct payment details", async () => {
         const rawData = await page.$$eval('#payment-details-table tbody tr', tds => tds.map((td) => {
