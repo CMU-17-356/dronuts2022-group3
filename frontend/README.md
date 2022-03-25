@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+Frontend deployed to https://frontend-345201.ue.r.appspot.com/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

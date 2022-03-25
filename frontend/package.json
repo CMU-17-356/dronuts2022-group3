@@ -2,7 +2,7 @@
   "name": "dronuts",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001/api/v1",
+  "proxy": "https://backend-345201.uk.r.appspot.com/api/v1",
   "dependencies": {
     "@mui/icons-material": "^5.4.1",
     "@mui/lab": "^5.0.0-alpha.69",
@@ -24,7 +24,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build",
+    "prestart": "npm install -g serve",
+    "local": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
