@@ -33,7 +33,7 @@ export default function DonutList(props: DonutListProps) {
     <Grid container spacing={4}>
       {donuts.map((donut) => (
         <Grid item key={donut._id} xs={12} sm={6} md={4}>
-          <Card
+          <Card id={`${donut.flavor}Card`}
             sx={{
               height: '100%',
               display: 'flex',
@@ -53,6 +53,7 @@ export default function DonutList(props: DonutListProps) {
             </CardContent>
             <CardActions>
               <Button
+                id={`${donut.flavor}AddBtn`}
                 color="secondary"
                 onClick={() => props.onClick(donut)}
                 size="small"

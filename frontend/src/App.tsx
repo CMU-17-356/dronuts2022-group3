@@ -32,7 +32,9 @@ function App() {
       <ResponsiveAppBar></ResponsiveAppBar>
       <Routes>
         <Route path="/customer" element={<CustomerMenu />} />
-        <Route path="/order" element={<TrackOrder />} />
+        <Route path="/trackorder" element={<TrackOrder />}>
+          <Route path=":id" element={<TrackOrder />} />
+        </Route>
         <Route path="/cart" element={<Cart />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<CustomerSignUp />}/>

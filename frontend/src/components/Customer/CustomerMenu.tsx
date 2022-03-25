@@ -1,5 +1,18 @@
-import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
-import React from 'react';
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Container,
+  CssBaseline,
+  Grid,
+  Snackbar,
+  Typography
+} from '@mui/material';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DonutInterface from '../Dronut/Donut';
 import DonutList from '../Dronut/DonutList';
@@ -27,13 +40,25 @@ const donuts: Array<DonutInterface> = [];
 
 
 function Menu() {
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
   
+    setOpen(false);
+  };
+  
+  const [open, setOpen] = React.useState(false);
+  const [snackMessage, setSnackMessage] = React.useState("");
+
   function handleAddItem(item) {
     console.log(item);
-    console.log(donuts);
-    donuts.push(item);
-    console.log(donuts);
+    customerItems.items.push(item);
+    setSnackMessage(`Added ${item.flavor} donut to cart!`);
+    setOpen(true);
   }
+
   async function handleCustomerCart(){
     console.log("logged User: ",loggedUser);
 
@@ -52,7 +77,6 @@ function Menu() {
     }else{
       customerItems.customerId = loggedUser._id;
     }
-    customerItems.items=donuts;
     console.log(customerItems)
   }
 
@@ -62,7 +86,13 @@ function Menu() {
         {/* End hero unit */}
         <DonutList onClick={handleAddItem} text="Add to cart" />
       </Container>
-      <Button color="secondary" component={Link} to={'/cart'} onClick={handleCustomerCart}>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert id="addedAlert" onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+        {snackMessage}
+        </Alert>
+      </Snackbar>
+      <Button id="continueToCart"
+        color="secondary" component={Link} to={'/cart'} onClick={handleCustomerCart}>
         Continue to Cart
       </Button>
     </main>

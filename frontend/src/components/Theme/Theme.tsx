@@ -22,9 +22,9 @@ const theme = createTheme({
     error: {
       main: '#d47f53'
     },
-    success: {
-      main: '#fefefe'
-    },
+    // success: {
+    //   main: '#fefefe'
+    // },
     info: {
       main: '#f0f0f0'
     },
